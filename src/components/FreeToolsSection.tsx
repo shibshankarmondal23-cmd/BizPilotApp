@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { Percent, TrendingUp, Clock, FileText, Image as ImageIcon, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Percent, Clock, FileText, Image as ImageIcon, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
 import { ToolItem } from '../types';
 import { Link } from '../utils/router';
 import { PercentageCalculator } from './tools/PercentageCalculator';
-import { ProfitMarginCalculator } from './tools/ProfitMarginCalculator';
 import { HourlyRateCalculator } from './tools/HourlyRateCalculator';
 import { WordCounter } from './tools/WordCounter';
 import { ImageResizer } from './tools/ImageResizer';
@@ -17,8 +16,6 @@ interface FreeToolsSectionProps {
 
 const TOOL_SLUG_MAP: Record<string, string> = {
   'percentage-calc': 'percentage-calculator',
-  'profit-margin': 'profit-margin-calculator',
-  'profit-margin-calc': 'profit-margin-calculator',
   'hourly-rate': 'hourly-rate-calculator',
   'hourly-rate-calc': 'hourly-rate-calculator',
   'word-counter': 'word-counter',
@@ -39,9 +36,7 @@ export const FreeToolsSection: React.FC<FreeToolsSectionProps> = ({
       const hasActive = freeTools.some(
         (t) =>
           t.id === activeToolId ||
-          (t.id === 'profit-margin-calc' && activeToolId === 'profit-margin') ||
           (t.id === 'hourly-rate-calc' && activeToolId === 'hourly-rate') ||
-          (t.id === 'profit-margin' && activeToolId === 'profit-margin-calc') ||
           (t.id === 'hourly-rate' && activeToolId === 'hourly-rate-calc')
       );
       if (!hasActive) {
@@ -68,8 +63,6 @@ export const FreeToolsSection: React.FC<FreeToolsSectionProps> = ({
     switch (iconName) {
       case 'Percent':
         return <Percent className="w-5 h-5 text-blue-600" />;
-      case 'TrendingUp':
-        return <TrendingUp className="w-5 h-5 text-emerald-600" />;
       case 'Clock':
         return <Clock className="w-5 h-5 text-amber-600" />;
       case 'FileText':
@@ -100,7 +93,7 @@ export const FreeToolsSection: React.FC<FreeToolsSectionProps> = ({
 
         {/* Free Tools Cards Grid */}
         {freeTools.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             {freeTools.map((tool) => {
               const isActive = activeToolId === tool.id;
               return (
@@ -169,7 +162,7 @@ export const FreeToolsSection: React.FC<FreeToolsSectionProps> = ({
           </div>
         ) : (
           <div className="bg-white rounded-2xl p-8 text-center border border-slate-200 text-slate-500 mb-8">
-            No free tools match your search or filter. Try clearing filters or searching for &quot;calculator&quot;, &quot;margin&quot;, &quot;rate&quot;, &quot;counter&quot;, or &quot;resizer&quot;.
+            No free tools match your search or filter. Try clearing filters or searching for &quot;calculator&quot;, &quot;rate&quot;, &quot;counter&quot;, or &quot;resizer&quot;.
           </div>
         )}
 
@@ -177,9 +170,6 @@ export const FreeToolsSection: React.FC<FreeToolsSectionProps> = ({
         <div id="active-tool-workspace" className="pt-2">
           {activeToolId === 'percentage-calc' && (
             <PercentageCalculator onNotify={onNotify} />
-          )}
-          {(activeToolId === 'profit-margin' || activeToolId === 'profit-margin-calc') && (
-            <ProfitMarginCalculator onNotify={onNotify} />
           )}
           {(activeToolId === 'hourly-rate' || activeToolId === 'hourly-rate-calc') && (
             <HourlyRateCalculator onNotify={onNotify} />

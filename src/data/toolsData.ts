@@ -14,28 +14,6 @@ export const ALL_TOOLS: ToolItem[] = [
     actionLabel: 'Use Calculator'
   },
   {
-    id: 'profit-margin',
-    name: 'Profit Margin Calculator',
-    category: 'Calculators',
-    tagline: 'Calculate net profit, gross margin, and markup percentages',
-    description: 'Determine your profit margins, markup multipliers, and gross profits to price your goods and services sustainably.',
-    isPremium: false,
-    iconName: 'TrendingUp',
-    badge: 'Free',
-    actionLabel: 'Calculate Margin'
-  },
-  {
-    id: 'hourly-rate',
-    name: 'Hourly Rate Calculator',
-    category: 'Calculators',
-    tagline: 'Calculate what you should charge per hour to hit income goals',
-    description: 'Factoring in billable weeks, weekly hours, and overhead expenses to establish a confident, sustainable freelance rate.',
-    isPremium: false,
-    iconName: 'Clock',
-    badge: 'Free',
-    actionLabel: 'Calculate Rate'
-  },
-  {
     id: 'word-counter',
     name: 'Word Counter',
     category: 'Productivity',
@@ -47,8 +25,19 @@ export const ALL_TOOLS: ToolItem[] = [
     actionLabel: 'Count Words'
   },
   {
+    id: 'hourly-rate',
+    name: 'Basic Hourly Rate Calculator',
+    category: 'Calculators',
+    tagline: 'Calculate what you should charge per hour to hit income goals',
+    description: 'Factoring in billable weeks, weekly hours, and overhead expenses to establish a confident, sustainable freelance rate.',
+    isPremium: false,
+    iconName: 'Clock',
+    badge: 'Free',
+    actionLabel: 'Calculate Rate'
+  },
+  {
     id: 'image-resizer',
-    name: 'Image Resizer',
+    name: 'Basic Image Resizer',
     category: 'Productivity',
     tagline: 'Resize, crop, and optimize photos 100% locally in your browser',
     description: 'Safe in-browser image resizing with aspect-ratio locking. Zero server uploads; your private images never leave your computer.',
@@ -60,6 +49,17 @@ export const ALL_TOOLS: ToolItem[] = [
 
   // Premium Tools
   {
+    id: 'profit-margin',
+    name: 'Profit Margin Calculator',
+    category: 'Calculators',
+    tagline: 'Calculate net profit, gross margin, and markup percentages',
+    description: 'Determine your profit margins, markup multipliers, and gross profits to price your goods and services sustainably.',
+    isPremium: true,
+    iconName: 'TrendingUp',
+    badge: 'Premium',
+    actionLabel: 'Upgrade to Premium'
+  },
+  {
     id: 'invoice-gen',
     name: 'Invoice Generator',
     category: 'Business',
@@ -68,7 +68,7 @@ export const ALL_TOOLS: ToolItem[] = [
     isPremium: true,
     iconName: 'Receipt',
     badge: 'Premium',
-    actionLabel: 'Unlock Tool'
+    actionLabel: 'Upgrade to Premium'
   },
   {
     id: 'quote-gen',
@@ -79,7 +79,7 @@ export const ALL_TOOLS: ToolItem[] = [
     isPremium: true,
     iconName: 'FileSpreadsheet',
     badge: 'Premium',
-    actionLabel: 'Unlock Tool'
+    actionLabel: 'Upgrade to Premium'
   },
   {
     id: 'proposal-gen',
@@ -90,7 +90,7 @@ export const ALL_TOOLS: ToolItem[] = [
     isPremium: true,
     iconName: 'Briefcase',
     badge: 'Premium',
-    actionLabel: 'Unlock Tool'
+    actionLabel: 'Upgrade to Premium'
   },
   {
     id: 'client-email-gen',
@@ -100,8 +100,8 @@ export const ALL_TOOLS: ToolItem[] = [
     description: 'Pre-built, customizable business email scripts for onboarding, project scope creep, overdue invoices, and pitch follow-ups.',
     isPremium: true,
     iconName: 'Mail',
-    badge: 'Premium',
-    actionLabel: 'Unlock Tool'
+    badge: 'Upcoming Premium',
+    actionLabel: 'Upcoming Tool'
   },
   {
     id: 'social-caption-gen',
@@ -111,27 +111,70 @@ export const ALL_TOOLS: ToolItem[] = [
     description: 'Formulate scroll-stopping captions, LinkedIn thought leadership posts, and Instagram updates to market your freelance services.',
     isPremium: true,
     iconName: 'Share2',
-    badge: 'Premium',
-    actionLabel: 'Unlock Tool'
+    badge: 'Upcoming Premium',
+    actionLabel: 'Upcoming Tool'
   }
+];
+
+export interface FreeTierPlan {
+  id: string;
+  name: string;
+  badge: string;
+  price: string;
+  period: string;
+  tagline: string;
+  description: string;
+  features: string[];
+  ctaLabel: string;
+}
+
+export const FREE_TIER_DETAILS: FreeTierPlan = {
+  id: 'free',
+  name: 'Free Forever',
+  badge: 'Zero Account Required',
+  price: '$0',
+  period: 'forever',
+  tagline: 'Essential everyday calculators for everyone',
+  description: 'Instant, private in-browser calculators and productivity utilities with zero sign-up or credit card needed.',
+  features: [
+    'Percentage Calculator (amounts, % change, tips & tax)',
+    'Word & Character Counter (real-time text metrics & reading times)',
+    'Basic Hourly Rate Calculator (billable rate targets & overhead)',
+    'Basic Image Resizer (100% local canvas resize & JPEG/PNG exports)',
+    '100% In-Browser Privacy (zero server uploads or data logging)',
+    'Unlimited everyday calculations with no account needed'
+  ],
+  ctaLabel: 'Use Free Tools Now'
+};
+
+export const PREMIUM_KEY_BENEFITS: string[] = [
+  'Profit Margin & Markup Multiplier Calculator with sustainable revenue targets',
+  'Professional Invoice Generator with line items, tax rates, and instant PDF download',
+  'Binding Project Quote & Estimate Generator with milestone deposits and terms',
+  'Client Proposal Generator with executive summary, deliverables, and signature blocks',
+  'Client-ready document exports with custom business branding & zero watermarks',
+  'Priority access to all new upcoming business tools and updates',
+  'Commercial usage rights for your client services and business operations'
 ];
 
 export const PRICING_PLANS: PricingPlan[] = [
   {
-    id: 'monthly',
-    name: 'Monthly',
+    id: 'monthly-promo',
+    name: '1 Month ($5 Promo)',
     duration: '1 Month',
-    price: '$9.99',
-    period: '/ month',
-    monthlyEquivalent: '$9.99/mo',
-    savings: 'Standard Flex',
+    price: '$5.00',
+    promotionalPrice: '$5.00 first month',
+    regularPrice: 'then $9.99/mo',
+    period: 'first month',
+    monthlyEquivalent: '$5 intro offer',
+    savings: '50% Off First Month',
     features: [
-      'Full access to all 5 Premium tools',
+      'Full access to all 4 Premium business tools',
+      'Profit Margin & markup calculator',
       'Invoice & Quote PDF generation',
       'Proposal templates with custom branding',
-      'Client email & caption writers',
       'Save & export project documents',
-      'Priority product feature updates'
+      'Cancel or switch plans anytime'
     ]
   },
   {
@@ -143,10 +186,10 @@ export const PRICING_PLANS: PricingPlan[] = [
     monthlyEquivalent: '$8.33 / month',
     savings: 'Save ~17%',
     features: [
-      'Full access to all 5 Premium tools',
+      'Full access to all 4 Premium business tools',
+      'Profit Margin & markup calculator',
       'Invoice & Quote PDF generation',
       'Proposal templates with custom branding',
-      'Client email & caption writers',
       'Save & export project documents',
       'Priority email customer support'
     ]
@@ -161,17 +204,17 @@ export const PRICING_PLANS: PricingPlan[] = [
     popular: true,
     savings: 'Save ~33%',
     features: [
-      'Full access to all 5 Premium tools',
+      'Full access to all 4 Premium business tools',
       'Unlimited PDF document exports',
+      'Profit Margin analysis & targets',
       'Proposal generator with milestone plans',
-      'Advanced client message scripts',
       'Commercial usage license',
       'Priority support & feature voting'
     ]
   },
   {
     id: 'yearly',
-    name: 'Yearly',
+    name: '1 Year',
     duration: 'Annual Access',
     price: '$59.99',
     period: '/ year',
@@ -179,10 +222,10 @@ export const PRICING_PLANS: PricingPlan[] = [
     bestValue: true,
     savings: 'Save 50%',
     features: [
-      'Full access to all 5 Premium tools',
+      'Full access to all 4 Premium business tools',
       'Unlimited PDF document exports',
       'Custom business branding & logo embeds',
-      'All upcoming 2026 business tools',
+      'All upcoming business tools & updates',
       'Fast-track feature requests',
       'Best ongoing annual rate'
     ]
@@ -198,12 +241,12 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     id: 'faq-2',
     question: '2. Which tools are free?',
-    answer: 'All five core utility tools are 100% free to use with no account, login, or subscription required: the Percentage Calculator, Profit Margin Calculator, Hourly Rate Calculator, Word Counter, and local Image Resizer.'
+    answer: 'Four core utility tools are 100% free to use with no account, login, or subscription required: the Percentage Calculator, Word Counter, Basic Hourly Rate Calculator, and Basic Image Resizer. Free tools remain fully usable forever with zero payment.'
   },
   {
     id: 'faq-3',
     question: '3. What do I get with Premium?',
-    answer: 'BizPilot Premium unlocks our advanced document generation and client communication suite, including the Invoice Generator, Quote Generator, Proposal Generator, Client Email Generator, and Social Media Caption Generator with branded PDF exports and unlimited document creation.'
+    answer: 'BizPilot Premium unlocks our advanced business calculation and client document suite, including the Profit Margin Calculator, Invoice Generator, Quote Generator, and Proposal Generator with branded PDF exports, commercial usage rights, and unlimited calculations.'
   },
   {
     id: 'faq-4',

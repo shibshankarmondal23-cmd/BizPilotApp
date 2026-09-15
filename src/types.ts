@@ -1,5 +1,18 @@
 export type ToolCategory = 'All' | 'Business' | 'Calculators' | 'Productivity' | 'Marketing';
 
+export type SubscriptionStatus = 'free' | 'premium' | 'expired' | 'loading';
+
+export type SubscriptionPlanId = 'free' | 'monthly_promo_5' | '3_months' | '6_months' | 'yearly';
+
+export interface SubscriptionState {
+  status: SubscriptionStatus;
+  planId?: SubscriptionPlanId;
+  planName?: string;
+  expiresAt?: string | null;
+  isTrialPromo?: boolean;
+  renewsAt?: string | null;
+}
+
 export interface ToolItem {
   id: string;
   name: string;
@@ -17,6 +30,8 @@ export interface PricingPlan {
   name: string;
   duration: string;
   price: string;
+  promotionalPrice?: string;
+  regularPrice?: string;
   period: string;
   monthlyEquivalent?: string;
   popular?: boolean;

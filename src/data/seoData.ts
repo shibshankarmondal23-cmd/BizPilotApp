@@ -91,7 +91,7 @@ export const TOOL_SEO_PAGES: Record<string, ToolSeoConfig> = {
     h1: 'Profit Margin & Markup Calculator',
     introduction: 'Accurately compute gross profit margins, markup multipliers, and net cash margins to ensure your freelance projects, consulting engagements, and client deliverables remain sustainably profitable after accounting for direct costs.',
     category: 'Calculators',
-    isPremium: false,
+    isPremium: true,
     howToUseSteps: [
       'Enter your total project or product cost (labor, software, materials, sub-contractors).',
       'Enter your selling price or client revenue figure.',

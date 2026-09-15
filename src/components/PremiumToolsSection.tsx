@@ -4,6 +4,7 @@ import {
   Receipt,
   FileSpreadsheet,
   Briefcase,
+  TrendingUp,
   Mail,
   Share2,
   Sparkles,
@@ -15,6 +16,7 @@ import {
 } from 'lucide-react';
 import { ToolItem } from '../types';
 import { Link } from '../utils/router';
+import { ProfitMarginCalculator } from './tools/ProfitMarginCalculator';
 import { InvoiceGenerator } from './tools/InvoiceGenerator';
 import { QuoteGenerator } from './tools/QuoteGenerator';
 import { ProposalGenerator } from './tools/ProposalGenerator';
@@ -28,6 +30,7 @@ interface PremiumToolsProps {
 }
 
 const PREMIUM_SLUG_MAP: Record<string, string> = {
+  'profit-margin': 'profit-margin-calculator',
   'invoice-gen': 'invoice-generator',
   'quote-gen': 'quote-generator',
   'proposal-gen': 'proposal-generator',
@@ -69,6 +72,8 @@ export const PremiumToolsSection: React.FC<PremiumToolsProps> = ({
 
   const getPremiumIcon = (iconName: string) => {
     switch (iconName) {
+      case 'TrendingUp':
+        return <TrendingUp className="w-5 h-5 text-emerald-600" />;
       case 'Receipt':
         return <Receipt className="w-5 h-5 text-indigo-600" />;
       case 'FileSpreadsheet':
@@ -84,9 +89,14 @@ export const PremiumToolsSection: React.FC<PremiumToolsProps> = ({
     }
   };
 
-  // Helper to identify the 3 unlocked preview tools
+  // Helper to identify the 4 premium tools available for interactive use
   const isPreviewable = (toolId: string) => {
-    return toolId === 'invoice-gen' || toolId === 'quote-gen' || toolId === 'proposal-gen';
+    return (
+      toolId === 'profit-margin' ||
+      toolId === 'invoice-gen' ||
+      toolId === 'quote-gen' ||
+      toolId === 'proposal-gen'
+    );
   };
 
   return (
@@ -183,18 +193,67 @@ export const PremiumToolsSection: React.FC<PremiumToolsProps> = ({
 
                     {/* Feature preview bullets */}
                     <div className="mt-5 pt-3 border-t border-slate-200/70 space-y-2 text-xs text-slate-600">
-                      <div className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                        <span>Client-side PDF download ready</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                        <span>Zero server uploads • 100% private</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                        <span>US Letter layout with auto-totals</span>
-                      </div>
+                      {tool.id === 'profit-margin' ? (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            <span>Gross profit &amp; markup multiplier formulas</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                            <span>Real-time margin vs cost pricing analytics</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                            <span>100% private in-browser calculations</span>
+                          </div>
+                        </>
+                      ) : tool.id === 'quote-gen' ? (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            <span>Binding project estimates &amp; deposit terms</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                            <span>Zero server uploads • 100% private</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                            <span>Downloadable branded quote PDF</span>
+                          </div>
+                        </>
+                      ) : tool.id === 'proposal-gen' ? (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            <span>Comprehensive scope &amp; milestone deliverables</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                            <span>Executive project summary &amp; signature block</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                            <span>Professional presentation-ready layout</span>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            <span>Client-side PDF download ready</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                            <span>Zero server uploads • 100% private</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                            <span>US Letter layout with auto-totals</span>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
 
@@ -220,8 +279,8 @@ export const PremiumToolsSection: React.FC<PremiumToolsProps> = ({
                           <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" />
                         </button>
 
-                        {PREMIUM_SLUG_MAP[tool.id] && (
-                          <div className="flex items-center justify-center mt-2.5">
+                        <div className="flex items-center justify-between mt-2.5 px-1">
+                          {PREMIUM_SLUG_MAP[tool.id] ? (
                             <Link
                               href={`/tools/${PREMIUM_SLUG_MAP[tool.id]}`}
                               onClick={(e) => e.stopPropagation()}
@@ -230,8 +289,19 @@ export const PremiumToolsSection: React.FC<PremiumToolsProps> = ({
                               <span>Dedicated page</span>
                               <ArrowRight className="w-2.5 h-2.5" />
                             </Link>
-                          </div>
-                        )}
+                          ) : <span />}
+
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onOpenUpgradeModal(tool.name);
+                            }}
+                            className="text-[11px] font-bold text-amber-700 hover:text-amber-800 transition-colors"
+                          >
+                            Upgrade ($5 Deal)
+                          </button>
+                        </div>
                       </>
                     ) : (
                       <button
@@ -288,7 +358,9 @@ export const PremiumToolsSection: React.FC<PremiumToolsProps> = ({
                 Interactive Generator Workspace
               </div>
               <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                {activeToolId === 'invoice-gen'
+                {activeToolId === 'profit-margin'
+                  ? 'Profit Margin Calculator'
+                  : activeToolId === 'invoice-gen'
                   ? 'Invoice Generator'
                   : activeToolId === 'quote-gen'
                   ? 'Quote Generator'
@@ -300,6 +372,19 @@ export const PremiumToolsSection: React.FC<PremiumToolsProps> = ({
 
             {/* Quick Switch Buttons */}
             <div className="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl overflow-x-auto scrollbar-none">
+              <button
+                type="button"
+                onClick={() => handleSelectTool('profit-margin')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                  activeToolId === 'profit-margin'
+                    ? 'bg-white text-slate-900 shadow-2xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Profit Margin</span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => handleSelectTool('invoice-gen')}
@@ -352,6 +437,42 @@ export const PremiumToolsSection: React.FC<PremiumToolsProps> = ({
           </div>
 
           {/* Active Tool Renderer */}
+          {activeToolId === 'profit-margin' && (
+            <div className="space-y-6">
+              <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/90 border border-amber-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-bold shrink-0 shadow-2xs">
+                    <Sparkles className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-200/90 text-amber-950 text-[11px] font-black uppercase tracking-wider mb-1 border border-amber-300">
+                      <span>PREMIUM CALCULATOR</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-amber-950 font-semibold">
+                      Profit Margin Calculator — Calculate sustainable pricing, gross margin &amp; markup multipliers.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 self-start sm:self-auto">
+                  <button
+                    type="button"
+                    onClick={() => onOpenUpgradeModal('Profit Margin Calculator')}
+                    className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-blue-600 text-white text-xs font-bold transition-colors cursor-pointer shadow-xs whitespace-nowrap"
+                  >
+                    Upgrade to Premium ($5 Deal)
+                  </button>
+                  <Link
+                    href="/pricing"
+                    className="px-3.5 py-2 rounded-xl border border-amber-300 hover:bg-amber-100 text-amber-950 text-xs font-bold transition-colors whitespace-nowrap"
+                  >
+                    Pricing Plans
+                  </Link>
+                </div>
+              </div>
+              <ProfitMarginCalculator onNotify={onNotify} />
+            </div>
+          )}
+
           {activeToolId === 'invoice-gen' && (
             <InvoiceGenerator onNotify={onNotify} onOpenUpgradeModal={onOpenUpgradeModal} />
           )}

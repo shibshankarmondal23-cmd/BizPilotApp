@@ -12,12 +12,12 @@ export const FreeVsPremiumSection: React.FC<FreeVsPremiumProps> = ({
 }) => {
   const comparisonFeatures = [
     { name: 'Percentage Calculator (3 Modes & Tax/Tips)', free: true, premium: true },
-    { name: 'Profit Margin & Markup Calculator', free: true, premium: true },
-    { name: 'Hourly Rate & Overhead Calculator', free: true, premium: true },
     { name: 'Real-time Word & Character Counter', free: true, premium: true },
-    { name: 'Local In-Browser Image Resizer', free: true, premium: true },
-    { name: 'Zero Sign-Up Required for Core Tools', free: true, premium: true },
+    { name: 'Basic Hourly Rate Calculator', free: true, premium: true },
+    { name: 'Basic Image Resizer (In-Browser Canvas)', free: true, premium: true },
+    { name: 'Zero Sign-Up Required for Free Tools', free: true, premium: true },
     { name: '100% In-Browser Privacy (Zero Cloud Uploads)', free: true, premium: true },
+    { name: 'Profit Margin & Markup Multiplier Calculator', free: false, premium: true },
     { name: 'Professional Invoice Generator (PDF Export)', free: false, premium: true },
     { name: 'Binding Project Quote & Estimate Generator', free: false, premium: true },
     { name: 'Client Proposal & Deliverables Generator', free: false, premium: true },
@@ -41,7 +41,7 @@ export const FreeVsPremiumSection: React.FC<FreeVsPremiumProps> = ({
           </h2>
 
           <p className="mt-3 text-base sm:text-lg text-slate-600 leading-relaxed">
-            Start with our 5 core tools for free. Upgrade to Premium whenever you need advanced business document generation and client communication scripts.
+            Start with our 4 free essential tools. Upgrade to Premium whenever you need professional profit margin analysis, client-ready invoice, quote, and proposal document generators.
           </p>
         </div>
 
@@ -57,9 +57,9 @@ export const FreeVsPremiumSection: React.FC<FreeVsPremiumProps> = ({
                 <span className="text-2xl font-black text-slate-900 font-mono">$0</span>
               </div>
 
-              <h3 className="text-2xl font-black text-slate-900">5 Core Tools</h3>
+              <h3 className="text-2xl font-black text-slate-900">4 Free Essentials</h3>
               <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-                Essential calculators and productivity utilities designed for fast everyday business math with zero login or setup.
+                Essential calculators and productivity utilities designed for fast everyday business tasks with zero login or setup.
               </p>
 
               <div className="mt-6 pt-6 border-t border-slate-200/80 space-y-3">
@@ -68,15 +68,7 @@ export const FreeVsPremiumSection: React.FC<FreeVsPremiumProps> = ({
                 </div>
                 <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700">
                   <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Percentage Calculator (Amounts, changes &amp; sales tax)</span>
-                </div>
-                <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700">
-                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Profit Margin Calculator (Gross profit &amp; markup %)</span>
-                </div>
-                <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700">
-                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Hourly Rate Calculator (Billable targets &amp; overhead)</span>
+                  <span>Percentage Calculator (Amounts, % change &amp; sales tax)</span>
                 </div>
                 <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700">
                   <Check className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -84,7 +76,11 @@ export const FreeVsPremiumSection: React.FC<FreeVsPremiumProps> = ({
                 </div>
                 <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700">
                   <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Image Resizer (100% local in-browser canvas processing)</span>
+                  <span>Basic Hourly Rate Calculator (Billable targets &amp; overhead)</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700">
+                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Basic Image Resizer (100% local in-browser canvas processing)</span>
                 </div>
               </div>
             </div>
@@ -119,9 +115,9 @@ export const FreeVsPremiumSection: React.FC<FreeVsPremiumProps> = ({
                 </div>
               </div>
 
-              <h3 className="text-2xl font-black text-white">Advanced Business Tools</h3>
+              <h3 className="text-2xl font-black text-white">Premium Business Tools</h3>
               <p className="text-sm text-slate-300 mt-2 leading-relaxed">
-                Advanced document creators, legal scopes, and client communication workflows + priority access to all future premium features.
+                Profit margin analytics, document creators, estimates, and client communication workflows + priority access to future premium tools.
               </p>
 
               <div className="mt-6 pt-6 border-t border-slate-800 space-y-3">
@@ -130,7 +126,11 @@ export const FreeVsPremiumSection: React.FC<FreeVsPremiumProps> = ({
                 </div>
                 <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-200">
                   <Check className="w-4 h-4 text-amber-300 shrink-0" />
-                  <span>All 5 Free Tools with unlimited calculations</span>
+                  <span>All 4 Free Tools with unlimited calculations</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-200">
+                  <Check className="w-4 h-4 text-amber-300 shrink-0" />
+                  <span>Profit Margin Calculator (Gross margin, markup &amp; pricing targets)</span>
                 </div>
                 <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-200">
                   <Check className="w-4 h-4 text-amber-300 shrink-0" />
@@ -146,11 +146,7 @@ export const FreeVsPremiumSection: React.FC<FreeVsPremiumProps> = ({
                 </div>
                 <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-200">
                   <Check className="w-4 h-4 text-amber-300 shrink-0" />
-                  <span>Client Email Generator (Follow-ups, scope creep &amp; payments)</span>
-                </div>
-                <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-200">
-                  <Check className="w-4 h-4 text-amber-300 shrink-0" />
-                  <span>Social Media Caption Generator (Marketing hooks &amp; angles)</span>
+                  <span>Client Email Generator &amp; Social Media Caption Generator</span>
                 </div>
                 <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-200">
                   <Check className="w-4 h-4 text-amber-300 shrink-0" />

@@ -12,7 +12,8 @@ import {
 } from 'lucide-react';
 import { ToolSeoConfig } from '../data/seoData';
 import { updateMetaTags, getToolPageSchema } from '../utils/seo';
-import { Link } from '../utils/router';
+import { Link, useRouter } from '../utils/router';
+import { UpgradeNoticeBanner } from '../components/subscription/PremiumGate';
 
 // Real working tools
 import { PercentageCalculator } from '../components/tools/PercentageCalculator';
@@ -35,6 +36,8 @@ export const ToolPage: React.FC<ToolPageProps> = ({
   onNotify,
   onOpenUpgradeModal,
 }) => {
+  const { navigate } = useRouter();
+
   // Sync SEO metadata and Schema.org on mount and when toolConfig changes
   useEffect(() => {
     updateMetaTags({
@@ -134,12 +137,24 @@ export const ToolPage: React.FC<ToolPageProps> = ({
       {/* Tool Header Section */}
       <header className="bg-white border-b border-slate-200/80 pt-10 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Category & Privacy Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold mb-4 border border-slate-200/60">
+          {/* Category, Status & Privacy Badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-4 border border-slate-200/80 bg-slate-100/80 text-slate-700">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
             <span>{toolConfig.category}</span>
             <span className="text-slate-300">•</span>
-            <span>100% In-Browser Private</span>
+            {toolConfig.isPremium ? (
+              <span className="font-bold text-amber-800 flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-amber-600" />
+                PREMIUM TOOL
+              </span>
+            ) : (
+              <span className="font-bold text-emerald-700 flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                100% FREE
+              </span>
+            )}
+            <span className="text-slate-300">•</span>
+            <span>In-Browser Privacy</span>
           </div>
 
           {/* Single H1 for the Tool Page */}
@@ -152,7 +167,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({
             {toolConfig.introduction}
           </p>
 
-          {/* Quick Value Indicators */}
+          {/* Quick Value Indicators & Upgrade CTA for Premium */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-500 font-medium">
             <span className="inline-flex items-center gap-1.5">
               <Zap className="w-3.5 h-3.5 text-amber-500" />
@@ -160,19 +175,44 @@ export const ToolPage: React.FC<ToolPageProps> = ({
             </span>
             <span className="inline-flex items-center gap-1.5">
               <Shield className="w-3.5 h-3.5 text-emerald-600" />
-              No Account Required
+              100% Private In-Browser
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
-              Free Client-Side Tool
+              {toolConfig.isPremium ? (
+                <span className="font-semibold text-amber-800">Premium Tool ($5 Deal)</span>
+              ) : (
+                <span className="font-semibold text-emerald-700">Free Forever Tool</span>
+              )}
             </span>
           </div>
+
+          {toolConfig.isPremium && (
+            <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-3 p-3 px-5 rounded-2xl bg-amber-50/90 border border-amber-200/80 text-amber-950 text-xs">
+              <span className="font-bold flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-amber-600" />
+                <span>Premium suite tool • Included in the $5 First Month Deal</span>
+              </span>
+              <button
+                type="button"
+                onClick={() => onOpenUpgradeModal(toolConfig.name)}
+                className="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white font-bold hover:bg-blue-600 transition-colors cursor-pointer shadow-2xs"
+              >
+                Upgrade to Premium
+              </button>
+            </div>
+          )}
         </div>
       </header>
 
       {/* Main Tool Working Workspace */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-4 sm:p-6 lg:p-8">
+          {toolConfig.isPremium && (
+            <UpgradeNoticeBanner
+              toolName={toolConfig.name}
+              onUpgradeClick={() => navigate('/pricing')}
+            />
+          )}
           {renderToolComponent()}
         </div>
 

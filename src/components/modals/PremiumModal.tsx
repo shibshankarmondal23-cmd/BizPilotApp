@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { X, Sparkles, ArrowRight, Shield, Receipt, FileSpreadsheet, Briefcase, Mail, Share2 } from 'lucide-react';
+import { X, Sparkles, ArrowRight, Shield, TrendingUp, Receipt, FileSpreadsheet, Briefcase, Mail, Share2 } from 'lucide-react';
 
 interface PremiumModalProps {
   isOpen: boolean;
@@ -31,11 +31,10 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
   if (!isOpen) return null;
 
   const premiumFeatures = [
+    { name: 'Profit Margin Calculator', desc: 'Sustainable pricing targets, gross margin & markup formulas', icon: TrendingUp },
     { name: 'Invoice Generator', desc: 'Custom line items, tax rates & downloadable PDF invoices', icon: Receipt },
     { name: 'Quote Generator', desc: 'Binding project estimates with deposit requirements & terms', icon: FileSpreadsheet },
     { name: 'Proposal Generator', desc: 'Comprehensive scopes, milestones, deliverables & signature fields', icon: Briefcase },
-    { name: 'Client Email Generator', desc: 'Battle-tested scripts for onboarding, scope creep & overdue bills', icon: Mail },
-    { name: 'Social Media Caption Generator', desc: 'Engaging marketing hooks, LinkedIn posts & Instagram captions', icon: Share2 },
   ];
 
   return (
@@ -147,7 +146,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
           <div className="text-center">
             <span className="text-[11px] text-slate-400 flex items-center justify-center gap-1.5">
               <Shield className="w-3.5 h-3.5 text-emerald-600" />
-              All 5 core calculators remain 100% free with no sign-up or credit card required.
+              All 4 core calculators remain 100% free with no sign-up or credit card required.
             </span>
           </div>
         </div>

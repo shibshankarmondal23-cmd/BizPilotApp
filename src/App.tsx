@@ -25,6 +25,7 @@ import { TOOL_SEO_PAGES } from './data/seoData';
 import { ToolPage } from './pages/ToolPage';
 import { ToolsHubPage } from './pages/ToolsHubPage';
 import { LegalPage, LegalPageType } from './pages/LegalPage';
+import { SubscriptionProvider } from './context/SubscriptionContext';
 
 function AppContent() {
   const { pathname, navigate } = useRouter();
@@ -342,7 +343,9 @@ function AppContent() {
 export default function App() {
   return (
     <RouterProvider>
-      <AppContent />
+      <SubscriptionProvider>
+        <AppContent />
+      </SubscriptionProvider>
     </RouterProvider>
   );
 }

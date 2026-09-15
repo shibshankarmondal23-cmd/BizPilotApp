@@ -48,12 +48,12 @@ export const ToolsHubPage: React.FC<ToolsHubPageProps> = ({ onOpenUpgradeModal }
   useEffect(() => {
     updateMetaTags({
       title: 'Business Tools & Calculators for Freelancers & Small Business | BizPilot',
-      description: 'Explore all BizPilot free tools: percentage calculator, profit margin calculator, hourly rate calculator, word counter, image resizer, and document generators.',
+      description: 'Explore BizPilot tools: free business calculators (percentage, hourly rate, word counter, image resizer) and premium business tools (profit margin, invoice, quote, and proposal generators).',
       canonicalPath: '/tools',
       schema: getPageSchema(
         'Business Tools & Calculators',
         '/tools',
-        'Directory of free business calculators, productivity tools, and document generators on BizPilot.'
+        'Directory of free business calculators and premium business document generators on BizPilot.'
       )
     });
   }, []);
