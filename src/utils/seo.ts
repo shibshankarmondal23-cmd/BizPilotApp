@@ -9,7 +9,7 @@ interface SeoProps {
   schema?: object;
 }
 
-const DEFAULT_ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://ais-dev-fgpo6nibsjeaaysno2syii-791957939414.asia-southeast1.run.app';
+const DEFAULT_ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://biz-pilot-app.vercel.app';
 
 export function updateMetaTags({
   title,

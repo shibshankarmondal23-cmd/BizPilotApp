@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://ais-dev-fgpo6nibsjeaaysno2syii-791957939414.asia-southeast1.run.app/sitemap.xml
+Sitemap: https://biz-pilot-app.vercel.app/sitemap.xml
