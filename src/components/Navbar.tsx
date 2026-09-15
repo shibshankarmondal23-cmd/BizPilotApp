@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Compass, Menu, X, Sparkles } from 'lucide-react';
+import { Compass, Menu, X, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Link, useRouter } from '../utils/router';
+import { useSubscription } from '../context/SubscriptionContext';
 
 interface NavbarProps {
   onOpenPremium: () => void;
@@ -15,6 +16,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { pathname, navigate } = useRouter();
+  const { isPremium, status, tierLabel, isCancelled, isExpired } = useSubscription();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -132,7 +134,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </Link>
           </nav>
 
-          {/* Right Side Desktop CTA: Start Premium */}
+          {/* Right Side Desktop CTA: Start Premium or Entitlement Status */}
           <div className="hidden md:flex items-center gap-3">
             <button
               type="button"
@@ -142,27 +144,56 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               Explore Free Tools
             </button>
-            <button
-              type="button"
-              onClick={onOpenPremium}
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-slate-900 hover:bg-blue-600 rounded-xl shadow-xs transition-all hover:shadow-sm cursor-pointer"
-              id="nav-cta-start-premium"
-            >
-              <Sparkles className="w-4 h-4 text-blue-300" />
-              <span>Start Premium</span>
-            </button>
+
+            {isPremium ? (
+              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>{tierLabel} • Active</span>
+              </div>
+            ) : isCancelled ? (
+              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold">
+                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                <span>Cancelled (Active)</span>
+              </div>
+            ) : isExpired ? (
+              <button
+                type="button"
+                onClick={onOpenPremium}
+                className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-rose-800 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-xl shadow-xs transition-colors cursor-pointer"
+              >
+                <AlertCircle className="w-4 h-4 text-rose-600" />
+                <span>Expired • Renew Plan</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={onOpenPremium}
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-slate-900 hover:bg-blue-600 rounded-xl shadow-xs transition-all hover:shadow-sm cursor-pointer"
+                id="nav-cta-start-premium"
+              >
+                <Sparkles className="w-4 h-4 text-amber-300" />
+                <span>Start Premium ($5 Promo)</span>
+              </button>
+            )}
           </div>
 
           {/* Mobile Actions */}
           <div className="flex md:hidden items-center gap-2">
-            <button
-              type="button"
-              onClick={onOpenPremium}
-              className="min-h-[44px] px-3.5 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-blue-600 rounded-xl shadow-xs flex items-center gap-1 cursor-pointer"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-              <span>Start Premium</span>
-            </button>
+            {isPremium ? (
+              <span className="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                <span>Active</span>
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={onOpenPremium}
+                className="min-h-[44px] px-3.5 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-blue-600 rounded-xl shadow-xs flex items-center gap-1 cursor-pointer"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                <span>$5 Promo</span>
+              </button>
+            )}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

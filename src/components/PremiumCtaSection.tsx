@@ -37,11 +37,11 @@ export const PremiumCtaSection: React.FC<PremiumCtaProps> = ({ onUnlockPremium }
           </div>
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span>Pre-built client email scripts</span>
+            <span>Binding quotes &amp; margin targets</span>
           </div>
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span>No recurring software lock-in</span>
+            <span>Cancel anytime — no lock-in</span>
           </div>
         </div>
 
@@ -59,7 +59,7 @@ export const PremiumCtaSection: React.FC<PremiumCtaProps> = ({ onUnlockPremium }
         </div>
 
         <p className="mt-4 text-xs text-slate-400">
-          Takes 30 seconds • Cancel anytime • Free tools require zero sign-up
+          First month $5, then $9.99/month • Cancel anytime • Free tools require zero sign-up
         </p>
       </div>
     </section>

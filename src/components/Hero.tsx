@@ -75,7 +75,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreFree, onUnlockPremium }) =>
             </div>
             <div className="flex items-center gap-3">
               <span className="bg-white border border-slate-200 px-2.5 py-1 rounded-md text-emerald-700 font-bold text-[11px]">
-                5 Free Tools Active
+                4 Free Tools Active
               </span>
               <span className="bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-md text-blue-700 font-bold text-[11px]">
                 Intro: First Month $5

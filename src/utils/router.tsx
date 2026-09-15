@@ -2,11 +2,18 @@ import React, { useState, useEffect, createContext, useContext, useCallback } fr
 
 interface RouterContextType {
   pathname: string;
+  searchParams: URLSearchParams;
   navigate: (to: string, options?: { replace?: boolean; scrollToTop?: boolean }) => void;
 }
 
+const getInitialSearchParams = (): URLSearchParams => {
+  if (typeof window === 'undefined') return new URLSearchParams();
+  return new URLSearchParams(window.location.search);
+};
+
 const RouterContext = createContext<RouterContextType>({
   pathname: typeof window !== 'undefined' ? window.location.pathname : '/',
+  searchParams: getInitialSearchParams(),
   navigate: () => {},
 });
 
@@ -16,9 +23,12 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return window.location.pathname || '/';
   });
 
+  const [searchParams, setSearchParams] = useState<URLSearchParams>(getInitialSearchParams);
+
   useEffect(() => {
     const handlePopState = () => {
       setPathname(window.location.pathname || '/');
+      setSearchParams(new URLSearchParams(window.location.search));
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -37,7 +47,8 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       } else {
         window.history.pushState({}, '', targetUrl);
       }
-      setPathname(targetUrl);
+      setPathname(targetUrl.split('?')[0]);
+      setSearchParams(new URLSearchParams(window.location.search));
     }
 
     if (options?.scrollToTop !== false) {
@@ -46,7 +57,7 @@ export const RouterProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, []);
 
   return (
-    <RouterContext.Provider value={{ pathname, navigate }}>
+    <RouterContext.Provider value={{ pathname, searchParams, navigate }}>
       {children}
     </RouterContext.Provider>
   );

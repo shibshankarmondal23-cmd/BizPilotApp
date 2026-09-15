@@ -164,70 +164,70 @@ export const PRICING_PLANS: PricingPlan[] = [
     duration: '1 Month',
     price: '$5.00',
     promotionalPrice: '$5.00 first month',
-    regularPrice: 'then $9.99/mo',
+    regularPrice: 'then $9.99/month',
     period: 'first month',
-    monthlyEquivalent: '$5 intro offer',
-    savings: '50% Off First Month',
+    monthlyEquivalent: '$5 first month, then $9.99/mo',
+    savings: 'Introductory Offer',
     features: [
       'Full access to all 4 Premium business tools',
-      'Profit Margin & markup calculator',
-      'Invoice & Quote PDF generation',
-      'Proposal templates with custom branding',
-      'Save & export project documents',
-      'Cancel or switch plans anytime'
+      '$5 for the first month',
+      'Then $9.99/month afterwards',
+      'Cancel anytime — zero lock-in',
+      'Profit Margin, Invoices, Quotes & Proposals',
+      'Full document exports with zero watermarks'
     ]
   },
   {
     id: '3-months',
     name: '3 Months',
-    duration: 'Quarterly',
+    duration: '3 Months (Prepaid)',
     price: '$24.99',
-    period: '/ 3 months',
+    period: 'total',
     monthlyEquivalent: '$8.33 / month',
-    savings: 'Save ~17%',
+    popular: true,
+    savings: 'Most Popular',
     features: [
       'Full access to all 4 Premium business tools',
-      'Profit Margin & markup calculator',
-      'Invoice & Quote PDF generation',
-      'Proposal templates with custom branding',
-      'Save & export project documents',
+      '$24.99 total one-time payment',
+      'Prepaid 3-month access',
+      'No automatic monthly renewal',
+      'Save & export client invoices & proposals',
       'Priority email customer support'
     ]
   },
   {
     id: '6-months',
     name: '6 Months',
-    duration: 'Bi-Annual',
-    price: '$39.99',
-    period: '/ 6 months',
-    monthlyEquivalent: '$6.67 / month',
-    popular: true,
-    savings: 'Save ~33%',
+    duration: '6 Months (Prepaid)',
+    price: '$44.99',
+    period: 'total',
+    monthlyEquivalent: '$7.50 / month',
+    savings: 'Save ~25%',
     features: [
       'Full access to all 4 Premium business tools',
+      '$44.99 total one-time payment',
+      'Prepaid 6-month access',
+      'No automatic monthly renewal',
       'Unlimited PDF document exports',
-      'Profit Margin analysis & targets',
-      'Proposal generator with milestone plans',
-      'Commercial usage license',
-      'Priority support & feature voting'
+      'Priority support & upcoming tool updates'
     ]
   },
   {
-    id: 'yearly',
+    id: '1-year',
     name: '1 Year',
-    duration: 'Annual Access',
-    price: '$59.99',
-    period: '/ year',
-    monthlyEquivalent: '$5.00 / month',
+    duration: '12 Months (Prepaid)',
+    price: '$79.99',
+    period: 'total',
+    monthlyEquivalent: '$6.67 / month',
     bestValue: true,
-    savings: 'Save 50%',
+    savings: 'Best Value (Save ~33%)',
     features: [
       'Full access to all 4 Premium business tools',
-      'Unlimited PDF document exports',
-      'Custom business branding & logo embeds',
-      'All upcoming business tools & updates',
-      'Fast-track feature requests',
-      'Best ongoing annual rate'
+      '$79.99 total one-time payment',
+      'Prepaid 12-month access',
+      'No automatic monthly renewal',
+      'Commercial usage & branding rights',
+      'All upcoming business tools & features'
     ]
   }
 ];
@@ -251,7 +251,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     id: 'faq-4',
     question: '4. How much does BizPilot Premium cost?',
-    answer: 'Our standard pricing tiers are $9.99/month, $24.99/3 months ($8.33/mo), $39.99/6 months ($6.67/mo), and $59.99/year ($5.00/mo). In addition, new users can get started with our special promotional offer: your first month is only $5.'
+    answer: 'Our monthly subscription is $5 for the first month, then $9.99/month, with the freedom to cancel anytime. We also offer convenient prepaid plans with no auto-renewal: 3 Months for $24.99 total ($8.33/mo), 6 Months for $44.99 total ($7.50/mo), and 1 Year for $79.99 total ($6.67/mo).'
   },
   {
     id: 'faq-5',
@@ -276,6 +276,6 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     id: 'faq-9',
     question: '9. When will Premium checkout be available?',
-    answer: 'We are currently completing testing on our secure payment infrastructure and compliance. Premium checkout will launch shortly. In the meantime, you can explore all five free tools immediately, and register your email to lock in your $5 introductory rate.'
+    answer: 'We are currently completing testing on our secure payment infrastructure and compliance. Premium checkout will launch shortly. In the meantime, you can explore all 4 free tools immediately, and register your email to lock in your $5 introductory rate.'
   }
 ];

@@ -1,16 +1,28 @@
 export type ToolCategory = 'All' | 'Business' | 'Calculators' | 'Productivity' | 'Marketing';
 
-export type SubscriptionStatus = 'free' | 'premium' | 'expired' | 'loading';
+export type SubscriptionStatus = 'free' | 'active' | 'cancelled' | 'expired' | 'loading';
 
-export type SubscriptionPlanId = 'free' | 'monthly_promo_5' | '3_months' | '6_months' | 'yearly';
+export type SubscriptionPlanId = 'free' | 'monthly-promo' | '3-months' | '6-months' | '1-year';
 
-export interface SubscriptionState {
+export type SubscriptionTier = 'free' | 'monthly' | '3-months' | '6-months' | '1-year';
+
+export interface SubscriptionEntitlement {
   status: SubscriptionStatus;
-  planId?: SubscriptionPlanId;
-  planName?: string;
-  expiresAt?: string | null;
-  isTrialPromo?: boolean;
-  renewsAt?: string | null;
+  tier: SubscriptionTier;
+  planId: SubscriptionPlanId;
+  planName: string;
+  startsAt: string | null;
+  expiresAt: string | null;
+  renewsAt: string | null;
+  cancelAtPeriodEnd: boolean;
+  isPromotionalRate: boolean;
+  customerId?: string | null;
+  subscriptionId?: string | null;
+}
+
+export interface SubscriptionState extends SubscriptionEntitlement {
+  // Convenience getters
+  isPremium?: boolean;
 }
 
 export interface ToolItem {

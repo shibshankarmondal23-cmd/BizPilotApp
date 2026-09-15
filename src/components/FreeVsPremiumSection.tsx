@@ -111,7 +111,7 @@ export const FreeVsPremiumSection: React.FC<FreeVsPremiumProps> = ({
                 </div>
                 <div className="text-right">
                   <span className="text-2xl font-black text-amber-300 font-mono">First Month $5</span>
-                  <div className="text-[11px] text-slate-400 font-medium">Then $9.99/mo or $59.99/yr</div>
+                  <div className="text-[11px] text-slate-400 font-medium">Then $9.99/month • Cancel anytime</div>
                 </div>
               </div>
 
@@ -146,7 +146,7 @@ export const FreeVsPremiumSection: React.FC<FreeVsPremiumProps> = ({
                 </div>
                 <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-200">
                   <Check className="w-4 h-4 text-amber-300 shrink-0" />
-                  <span>Client Email Generator &amp; Social Media Caption Generator</span>
+                  <span>Commercial usage rights &amp; client-ready document exports</span>
                 </div>
                 <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-200">
                   <Check className="w-4 h-4 text-amber-300 shrink-0" />
@@ -176,7 +176,7 @@ export const FreeVsPremiumSection: React.FC<FreeVsPremiumProps> = ({
               <tr className="bg-slate-50 border-b border-slate-200 text-slate-900">
                 <th className="py-4 px-4 sm:px-6 font-bold">Feature &amp; Capability</th>
                 <th className="py-4 px-4 sm:px-6 font-bold text-center w-36 sm:w-48 bg-slate-100/60">
-                  FREE (5 Tools)
+                  FREE (4 Tools)
                 </th>
                 <th className="py-4 px-4 sm:px-6 font-bold text-center w-36 sm:w-48 bg-blue-50/70 text-blue-900">
                   PREMIUM

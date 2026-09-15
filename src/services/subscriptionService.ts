@@ -19,7 +19,8 @@
  *    The rest of the UI (modals, gates, badges) will consume this seamlessly without refactoring.
  */
 
-import { SubscriptionPlanId, SubscriptionState, SubscriptionStatus } from '../types';
+import { SubscriptionPlanId, SubscriptionState, SubscriptionStatus, SubscriptionTier } from '../types';
+import { PLAN_CONFIG_MAP, calculateEntitlementExpiry } from './paymentServerAdapter';
 
 /**
  * List of free tool IDs and URL slugs
@@ -46,30 +47,30 @@ export const PREMIUM_TOOL_IDENTIFIERS = new Set<string>([
   'quote-generator',
   'proposal-gen',
   'proposal-generator',
-  'client-email',
-  'client-email-gen',
-  'social-caption',
-  'social-caption-gen',
 ]);
 
 /**
- * Configuration for future strict gate enforcement
+ * Configuration for strict gate enforcement
  * When false: Free/guest users can interact with premium tools in preview mode with upgrade banners.
- * When true (after payment provider & auth are active): Free users are hard-gated from premium tools.
+ * When true: Free users are hard-gated from premium tools unless active entitlement is verified.
  */
 export const ENFORCE_STRICT_PREMIUM_LOCK = false;
 
 /**
  * Default subscription state for guest/anonymous users.
- * IMPORTANT: User is NOT hardcoded as premium.
+ * IMPORTANT: User is strictly in 'free' state by default with zero assumptions of premium.
  */
 export const DEFAULT_GUEST_SUBSCRIPTION: SubscriptionState = {
   status: 'free',
+  tier: 'free',
   planId: 'free',
-  planName: 'Free Tier',
+  planName: 'Free Forever',
+  startsAt: null,
   expiresAt: null,
-  isTrialPromo: false,
   renewsAt: null,
+  cancelAtPeriodEnd: false,
+  isPromotionalRate: false,
+  isPremium: false,
 };
 
 /**
@@ -89,33 +90,103 @@ export function isToolFree(toolIdOrSlug: string): boolean {
 }
 
 /**
+ * Helper to check if a subscription has an active entitlement
+ */
+export function isSubscriptionActive(sub: SubscriptionState): boolean {
+  if (sub.status === 'active') {
+    // If expiresAt is set, check date
+    if (sub.expiresAt) {
+      return new Date(sub.expiresAt).getTime() > Date.now();
+    }
+    return true;
+  }
+
+  // If user cancelled, they keep access until expiry
+  if (sub.status === 'cancelled' && sub.expiresAt) {
+    return new Date(sub.expiresAt).getTime() > Date.now();
+  }
+
+  return false;
+}
+
+/**
+ * Helper to check if a subscription is expired
+ */
+export function isSubscriptionExpired(sub: SubscriptionState): boolean {
+  if (sub.status === 'expired') return true;
+  if (sub.expiresAt && new Date(sub.expiresAt).getTime() <= Date.now()) return true;
+  return false;
+}
+
+/**
+ * Format plan tier badge for UI displays
+ */
+export function getSubscriptionTierLabel(tier: SubscriptionTier): string {
+  switch (tier) {
+    case 'monthly':
+      return 'Premium Monthly';
+    case '3-months':
+      return '3-Month Premium';
+    case '6-months':
+      return '6-Month Premium';
+    case '1-year':
+      return '1-Year Premium';
+    case 'free':
+    default:
+      return 'Free Plan';
+  }
+}
+
+/**
+ * Format status badge for UI displays
+ */
+export function getSubscriptionStatusLabel(status: SubscriptionStatus): {
+  label: string;
+  badgeClass: string;
+} {
+  switch (status) {
+    case 'active':
+      return { label: 'Active', badgeClass: 'bg-emerald-50 text-emerald-800 border-emerald-200' };
+    case 'cancelled':
+      return { label: 'Cancelled', badgeClass: 'bg-amber-50 text-amber-800 border-amber-200' };
+    case 'expired':
+      return { label: 'Expired', badgeClass: 'bg-rose-50 text-rose-800 border-rose-200' };
+    case 'loading':
+      return { label: 'Syncing', badgeClass: 'bg-slate-100 text-slate-700 border-slate-200' };
+    case 'free':
+    default:
+      return { label: 'Free Tier', badgeClass: 'bg-slate-100 text-slate-800 border-slate-200' };
+  }
+}
+
+/**
  * Check whether a user with given subscription state can access a tool
  */
 export function canUserAccessTool(
   toolIdOrSlug: string,
   subscription: SubscriptionState = DEFAULT_GUEST_SUBSCRIPTION
 ): boolean {
-  // Free tools are always accessible to all users (including guests)
+  // Free tools are always accessible to all users (including unauthenticated guests)
   if (isToolFree(toolIdOrSlug)) {
     return true;
   }
 
-  // If the tool is premium, active premium subscribers always have access
-  if (subscription.status === 'premium') {
+  // Active or unexpired cancelled subscribers have full access to premium tools
+  if (isSubscriptionActive(subscription)) {
     return true;
   }
 
-  // If strict locking is disabled, allow preview mode
+  // If strict locking is disabled, allow preview mode with upgrade banners
   if (!ENFORCE_STRICT_PREMIUM_LOCK) {
     return true;
   }
 
-  // Otherwise, locked for non-premium users
+  // Otherwise, locked for non-entitled users
   return false;
 }
 
 /**
- * Interface for future payment provider adapters (e.g. Stripe, LemonSqueezy)
+ * Interface for client-side payment provider adapters (e.g. Stripe)
  */
 export interface PaymentProviderAdapter {
   id: string;
@@ -124,42 +195,94 @@ export interface PaymentProviderAdapter {
     checkoutUrl?: string;
     sessionId?: string;
     error?: string;
+    status: 'ready' | 'configuration_required' | 'failed';
+  }>;
+  verifyPaymentSession: (sessionId: string) => Promise<{
+    verified: boolean;
+    entitlement?: SubscriptionState;
+    error?: string;
   }>;
   getCustomerPortalUrl?: () => Promise<{ portalUrl?: string; error?: string }>;
 }
 
 /**
- * Future Payment Provider Placeholder / Adapter
- * NOTE: We do NOT implement fake payments or mock credit card forms.
- * This adapter documents the exact contract needed when Stripe or another provider is ready.
+ * Secure Client Payment Provider Implementation
+ * Calls secure server API routes (`/api/checkout/*`).
+ * No secret keys or credentials exist on the client side.
  */
-export class DeferredPaymentProvider implements PaymentProviderAdapter {
-  id = 'deferred-provider';
-  name = 'Stripe / Merchant Gateway (Launching Soon)';
+export class SecureClientPaymentProvider implements PaymentProviderAdapter {
+  id = 'stripe-client-provider';
+  name = 'Stripe Merchant Gateway';
 
   async createCheckoutSession(
     planId: SubscriptionPlanId,
     customerEmail?: string
-  ): Promise<{ checkoutUrl?: string; sessionId?: string; error?: string }> {
-    // In production with real backend, this will call:
-    // const res = await fetch('/api/stripe/create-checkout-session', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ planId, customerEmail })
-    // });
-    // const data = await res.json();
-    // return { checkoutUrl: data.url, sessionId: data.sessionId };
+  ): Promise<{ checkoutUrl?: string; sessionId?: string; error?: string; status: 'ready' | 'configuration_required' | 'failed' }> {
+    try {
+      // In production with real backend API routes, this dispatches to server:
+      const res = await fetch('/api/checkout/create-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ planId, customerEmail }),
+      });
 
-    return {
-      error: 'PAYMENT_GATEWAY_PENDING_LAUNCH',
-    };
+      if (!res.ok) {
+        // When server API route is not yet deployed, gracefully handle without mock fake payments
+        return {
+          status: 'configuration_required',
+          error: 'Payment gateway configuration is being prepared. Real payments will go live upon production server deployment.',
+        };
+      }
+
+      const data = await res.json();
+      return {
+        status: 'ready',
+        checkoutUrl: data.checkoutUrl,
+        sessionId: data.sessionId,
+      };
+    } catch {
+      return {
+        status: 'configuration_required',
+        error: 'Payment gateway is in preparation. No payment secrets are configured on the client.',
+      };
+    }
+  }
+
+  async verifyPaymentSession(sessionId: string): Promise<{
+    verified: boolean;
+    entitlement?: SubscriptionState;
+    error?: string;
+  }> {
+    try {
+      const res = await fetch(`/api/checkout/verify?sessionId=${encodeURIComponent(sessionId)}`);
+      if (!res.ok) {
+        return { verified: false, error: 'Verification server endpoint unavailable.' };
+      }
+      const data = await res.json();
+      return {
+        verified: data.verified,
+        entitlement: data.entitlement,
+      };
+    } catch (err: any) {
+      return {
+        verified: false,
+        error: err?.message || 'Failed to reach verification endpoint.',
+      };
+    }
   }
 
   async getCustomerPortalUrl(): Promise<{ portalUrl?: string; error?: string }> {
-    return {
-      error: 'PORTAL_PENDING_LAUNCH',
-    };
+    try {
+      const res = await fetch('/api/subscription/portal');
+      if (!res.ok) {
+        return { error: 'Customer billing portal configuration pending.' };
+      }
+      const data = await res.json();
+      return { portalUrl: data.portalUrl };
+    } catch {
+      return { error: 'Customer billing portal configuration pending.' };
+    }
   }
 }
 
-export const paymentProvider = new DeferredPaymentProvider();
+export const paymentProvider = new SecureClientPaymentProvider();

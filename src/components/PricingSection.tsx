@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Check, Sparkles, Tag, ShieldCheck, Clock, ArrowRight, Shield, Zap, FileText, CheckCircle2 } from 'lucide-react';
+import { Check, Sparkles, Tag, ShieldCheck, Clock, ArrowRight, Shield, Zap, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
 import { PRICING_PLANS, FREE_TIER_DETAILS, PREMIUM_KEY_BENEFITS } from '../data/toolsData';
 import { Link, useRouter } from '../utils/router';
+import { useSubscription } from '../context/SubscriptionContext';
 
 interface PricingProps {
   onSelectPlan: (planName: string) => void;
@@ -9,17 +10,17 @@ interface PricingProps {
 
 export const PricingSection: React.FC<PricingProps> = ({ onSelectPlan }) => {
   const { navigate } = useRouter();
-  const [activeTab, setActiveTab] = useState<'all' | 'premium'>('all');
+  const { status, tierLabel, statusDetails, subscription } = useSubscription();
 
   return (
     <section className="py-16 md:py-24 bg-slate-50 border-t border-slate-200/70" id="pricing-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-10">
           {/* Prominent $5 First-Month Promo Pill */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100 border border-amber-300 text-amber-950 text-xs sm:text-sm font-extrabold mb-4 shadow-2xs">
             <Tag className="w-4 h-4 text-amber-700 shrink-0" />
-            <span>Special Promotional Deal: First month only $5. Cancel anytime.</span>
+            <span>Special Promotional Deal: First month $5, then $9.99/month. Cancel anytime.</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
@@ -45,6 +46,27 @@ export const PricingSection: React.FC<PricingProps> = ({ onSelectPlan }) => {
               <Shield className="w-4 h-4 text-slate-600 shrink-0" />
               <span>Zero server document tracking</span>
             </span>
+          </div>
+        </div>
+
+        {/* Current Subscription Status Bar */}
+        <div className="mb-12 max-w-2xl mx-auto p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2.5">
+            <span className="font-bold text-slate-500 uppercase tracking-wider text-[11px]">Your Current Status:</span>
+            <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border ${statusDetails.badgeClass}`}>
+              {status === 'active' ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> : null}
+              {status === 'expired' ? <AlertCircle className="w-3.5 h-3.5 text-rose-600" /> : null}
+              <span>{tierLabel} • {statusDetails.label}</span>
+            </span>
+          </div>
+          <div className="text-slate-500 text-center sm:text-right">
+            {status === 'active' && subscription.expiresAt
+              ? `Active through ${new Date(subscription.expiresAt).toLocaleDateString()}`
+              : status === 'cancelled' && subscription.expiresAt
+              ? `Access retained through ${new Date(subscription.expiresAt).toLocaleDateString()}`
+              : status === 'expired'
+              ? 'Subscription expired — Renew below'
+              : 'All 4 free tools are 100% free with no sign-up'}
           </div>
         </div>
 
@@ -188,6 +210,7 @@ export const PricingSection: React.FC<PricingProps> = ({ onSelectPlan }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {PRICING_PLANS.map((plan) => {
               const isBestValue = plan.bestValue;
+              const isPopular = plan.popular;
               const isPromoMonth = plan.id === 'monthly-promo';
 
               return (
@@ -195,25 +218,34 @@ export const PricingSection: React.FC<PricingProps> = ({ onSelectPlan }) => {
                   key={plan.id}
                   id={`pricing-card-${plan.id}`}
                   className={`relative rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-200 ${
-                    isBestValue
+                    isPopular
+                      ? 'bg-white border-2 border-emerald-500 shadow-xl ring-4 ring-emerald-500/10'
+                      : isBestValue
                       ? 'bg-white border-2 border-blue-600 shadow-xl ring-4 ring-blue-600/10'
                       : isPromoMonth
                       ? 'bg-white border-2 border-amber-400 shadow-lg'
                       : 'bg-white border border-slate-200/90 shadow-sm hover:border-slate-300'
                   }`}
                 >
-                  {/* Promo or Best Value Badges */}
-                  {isBestValue && (
-                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-blue-600 text-white text-[11px] font-black tracking-wider uppercase shadow-md flex items-center gap-1.5 whitespace-nowrap">
-                      <Sparkles className="w-3 h-3 text-amber-300" />
-                      <span>BEST VALUE • SAVE 50%</span>
+                  {/* Badges */}
+                  {isPopular && (
+                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-emerald-600 text-white text-[11px] font-black tracking-wider uppercase shadow-md flex items-center gap-1.5 whitespace-nowrap">
+                      <Sparkles className="w-3 h-3 text-emerald-200" />
+                      <span>MOST POPULAR • $24.99</span>
                     </div>
                   )}
 
-                  {isPromoMonth && !isBestValue && (
+                  {isBestValue && !isPopular && (
+                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-blue-600 text-white text-[11px] font-black tracking-wider uppercase shadow-md flex items-center gap-1.5 whitespace-nowrap">
+                      <Sparkles className="w-3 h-3 text-amber-300" />
+                      <span>BEST VALUE • 12 MONTHS</span>
+                    </div>
+                  )}
+
+                  {isPromoMonth && !isBestValue && !isPopular && (
                     <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-amber-500 text-slate-950 text-[11px] font-black tracking-wider uppercase shadow-md flex items-center gap-1.5 whitespace-nowrap">
                       <Tag className="w-3 h-3" />
-                      <span>FIRST MONTH $5</span>
+                      <span>FIRST MONTH $5 PROMO</span>
                     </div>
                   )}
 
@@ -240,7 +272,7 @@ export const PricingSection: React.FC<PricingProps> = ({ onSelectPlan }) => {
                     {/* Additional price context */}
                     {isPromoMonth ? (
                       <div className="text-xs font-bold text-amber-700 mt-1">
-                        Regular price $9.99/mo after first month
+                        Then $9.99/month • Cancel anytime
                       </div>
                     ) : plan.monthlyEquivalent ? (
                       <div className="text-xs font-bold text-blue-600 mt-1">
@@ -269,7 +301,9 @@ export const PricingSection: React.FC<PricingProps> = ({ onSelectPlan }) => {
                       onClick={() => onSelectPlan(plan.name)}
                       id={`btn-choose-plan-${plan.id}`}
                       className={`w-full min-h-[44px] py-3 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs cursor-pointer flex items-center justify-center gap-2 ${
-                        isBestValue
+                        isPopular
+                          ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20'
+                          : isBestValue
                           ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-600/20'
                           : isPromoMonth
                           ? 'bg-slate-900 hover:bg-amber-500 hover:text-slate-950 text-white'
