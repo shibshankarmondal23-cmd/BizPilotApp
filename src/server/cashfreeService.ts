@@ -8,7 +8,7 @@
  */
 
 import dotenv from 'dotenv';
-import type { SubscriptionPlanId, SubscriptionTier, SubscriptionState } from '../types.ts';
+import type { SubscriptionPlanId, SubscriptionTier, SubscriptionState } from '../types';
 
 // Ensure environment variables from .env and .env.local are loaded in all runtime environments
 if (typeof process !== 'undefined') {

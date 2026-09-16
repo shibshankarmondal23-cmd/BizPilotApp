@@ -148,6 +148,12 @@ function cashfreeApiPlugin(): Plugin {
           }
         }
 
+        if (pathname === '/api/webhook') {
+          res.setHeader('Content-Type', 'application/json');
+          res.statusCode = 200;
+          return res.end(JSON.stringify({ status: 'received' }));
+        }
+
         next();
       });
     },
