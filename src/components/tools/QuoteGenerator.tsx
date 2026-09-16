@@ -168,8 +168,9 @@ export const QuoteGenerator: React.FC<Props> = ({ onNotify, onOpenUpgradeModal }
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Quote Generator</h3>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-200">
-                Premium preview — checkout coming soon.
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-teal-50 text-teal-700 border border-teal-200/80 flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-amber-500" />
+                <span>BizPilot Premium</span>
               </span>
             </div>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">

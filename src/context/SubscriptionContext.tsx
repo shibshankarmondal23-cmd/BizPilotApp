@@ -53,23 +53,45 @@ export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({
 }) => {
   const { navigate, searchParams } = useRouter();
 
-  // Subscription state: defaults strictly to guest/free with zero assumption of premium
-  const [subscription, setSubscription] = useState<SubscriptionState>(DEFAULT_GUEST_SUBSCRIPTION);
+  // Subscription state: initialize from localStorage if active, otherwise default to guest/free
+  const [subscription, setSubscription] = useState<SubscriptionState>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('bizpilot_subscription');
+        if (saved) {
+          const parsed: SubscriptionState = JSON.parse(saved);
+          if (isSubscriptionActive(parsed)) {
+            return {
+              ...parsed,
+              isPremium: true,
+            };
+          }
+        }
+      } catch {
+        // Fallback to default guest
+      }
+    }
+    return DEFAULT_GUEST_SUBSCRIPTION;
+  });
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Function to refresh state from real server endpoint
   const refreshSubscription = useCallback(async () => {
     try {
       setIsLoading(true);
-      // Calls server route in production: /api/subscription/status
       const res = await fetch('/api/subscription/status');
       if (res.ok) {
         const data = await res.json();
         if (data && data.status) {
-          setSubscription({
+          const updated = {
             ...data,
             isPremium: isSubscriptionActive(data),
-          });
+          };
+          setSubscription(updated);
+          if (typeof window !== 'undefined' && updated.isPremium) {
+            localStorage.setItem('bizpilot_subscription', JSON.stringify(updated));
+          }
         }
       }
     } catch {
@@ -79,18 +101,26 @@ export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({
     }
   }, []);
 
-  // Check URL parameters for real checkout return (e.g. ?session_id=cs_...)
+  // Check URL parameters for real checkout return (e.g. ?order_id=biz_... or ?session_id=...)
   useEffect(() => {
-    const sessionId = searchParams?.get?.('session_id') || (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('session_id') : null);
-    if (sessionId) {
+    const orderId = searchParams?.get?.('order_id') ||
+      searchParams?.get?.('orderId') ||
+      searchParams?.get?.('session_id') ||
+      (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('order_id') : null);
+
+    if (orderId) {
       setIsLoading(true);
-      // Verify payment with the server adapter
-      paymentProvider.verifyPaymentSession(sessionId).then((res) => {
+      // Verify payment with Cashfree payment provider
+      paymentProvider.verifyPaymentSession(orderId).then((res) => {
         if (res.verified && res.entitlement) {
-          setSubscription({
+          const activeSub: SubscriptionState = {
             ...res.entitlement,
             isPremium: isSubscriptionActive(res.entitlement),
-          });
+          };
+          setSubscription(activeSub);
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('bizpilot_subscription', JSON.stringify(activeSub));
+          }
         }
         setIsLoading(false);
       }).catch(() => {
@@ -146,10 +176,18 @@ export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({
   };
 
   const applyVerifiedEntitlement = (entitlement: SubscriptionState) => {
-    setSubscription({
+    const updated: SubscriptionState = {
       ...entitlement,
       isPremium: isSubscriptionActive(entitlement),
-    });
+    };
+    setSubscription(updated);
+    if (typeof window !== 'undefined' && updated.isPremium) {
+      try {
+        localStorage.setItem('bizpilot_subscription', JSON.stringify(updated));
+      } catch {
+        // Storage unavailable or disabled
+      }
+    }
   };
 
   return (

@@ -189,8 +189,8 @@ export const PricingSection: React.FC<PricingProps> = ({ onSelectPlan }) => {
                 </a>
               </div>
               <div className="text-[11px] text-slate-400 text-center mt-2.5 flex items-center justify-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-blue-400" />
-                <span>Payment checkout launching soon • Reserve priority promotional rate today</span>
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Instant activation • Secured by Cashfree Payments • Cancel anytime</span>
               </div>
             </div>
           </div>
@@ -314,8 +314,9 @@ export const PricingSection: React.FC<PricingProps> = ({ onSelectPlan }) => {
                         {isPromoMonth ? 'Claim $5 First Month' : `Select ${plan.duration}`}
                       </span>
                     </button>
-                    <div className="text-[11px] text-slate-400 text-center mt-2 font-medium">
-                      Checkout coming soon • Reserve rate
+                    <div className="text-[11px] text-slate-500 text-center mt-2 font-medium flex items-center justify-center gap-1">
+                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Instant access • Secured by Cashfree</span>
                     </div>
                   </div>
                 </div>
@@ -372,7 +373,7 @@ export const PricingSection: React.FC<PricingProps> = ({ onSelectPlan }) => {
         {/* Trust Footnote */}
         <div className="mt-12 text-center text-xs text-slate-500 max-w-xl mx-auto flex items-center justify-center gap-2 font-medium">
           <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-          <span>No charges today. Payment processor onboarding in progress. All 4 core calculators remain free forever.</span>
+          <span>Secured by Cashfree Payments. Instant activation upon checkout. All 4 core calculators remain free forever.</span>
         </div>
       </div>
     </section>

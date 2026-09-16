@@ -275,7 +275,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   },
   {
     id: 'faq-9',
-    question: '9. When will Premium checkout be available?',
-    answer: 'We are currently completing testing on our secure payment infrastructure and compliance. Premium checkout will launch shortly. In the meantime, you can explore all 4 free tools immediately, and register your email to lock in your $5 introductory rate.'
+    question: '9. How do I upgrade to BizPilot Premium?',
+    answer: 'You can upgrade directly by choosing any of our subscription plans on the pricing section. Payments are securely processed via Cashfree Payments with instant tool activation upon successful checkout.'
   }
 ];

@@ -207,43 +207,47 @@ export interface PaymentProviderAdapter {
 
 /**
  * Secure Client Payment Provider Implementation
- * Calls secure server API routes (`/api/checkout/*`).
+ * Connects to Cashfree serverless endpoints (/api/create-order, /api/verify-order).
  * No secret keys or credentials exist on the client side.
  */
 export class SecureClientPaymentProvider implements PaymentProviderAdapter {
-  id = 'stripe-client-provider';
-  name = 'Stripe Merchant Gateway';
+  id = 'cashfree-client-provider';
+  name = 'Cashfree Payment Gateway';
 
   async createCheckoutSession(
     planId: SubscriptionPlanId,
     customerEmail?: string
   ): Promise<{ checkoutUrl?: string; sessionId?: string; error?: string; status: 'ready' | 'configuration_required' | 'failed' }> {
     try {
-      // In production with real backend API routes, this dispatches to server:
-      const res = await fetch('/api/checkout/create-session', {
+      const res = await fetch('/api/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ planId, customerEmail }),
       });
 
-      if (!res.ok) {
-        // When server API route is not yet deployed, gracefully handle without mock fake payments
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok || !data.success) {
+        if (data.code === 'GATEWAY_UNCONFIGURED') {
+          return {
+            status: 'configuration_required',
+            error: data.error || 'Cashfree payment gateway configuration pending.',
+          };
+        }
         return {
-          status: 'configuration_required',
-          error: 'Payment gateway configuration is being prepared. Real payments will go live upon production server deployment.',
+          status: 'failed',
+          error: data.error || 'Failed to create payment session.',
         };
       }
 
-      const data = await res.json();
       return {
         status: 'ready',
-        checkoutUrl: data.checkoutUrl,
-        sessionId: data.sessionId,
+        sessionId: data.payment_session_id,
       };
     } catch {
       return {
-        status: 'configuration_required',
-        error: 'Payment gateway is in preparation. No payment secrets are configured on the client.',
+        status: 'failed',
+        error: 'Network error connecting to payment gateway server.',
       };
     }
   }
@@ -254,14 +258,15 @@ export class SecureClientPaymentProvider implements PaymentProviderAdapter {
     error?: string;
   }> {
     try {
-      const res = await fetch(`/api/checkout/verify?sessionId=${encodeURIComponent(sessionId)}`);
+      const res = await fetch(`/api/verify-order?order_id=${encodeURIComponent(sessionId)}`);
       if (!res.ok) {
         return { verified: false, error: 'Verification server endpoint unavailable.' };
       }
       const data = await res.json();
       return {
-        verified: data.verified,
+        verified: Boolean(data.verified),
         entitlement: data.entitlement,
+        error: data.error,
       };
     } catch (err: any) {
       return {
@@ -272,16 +277,7 @@ export class SecureClientPaymentProvider implements PaymentProviderAdapter {
   }
 
   async getCustomerPortalUrl(): Promise<{ portalUrl?: string; error?: string }> {
-    try {
-      const res = await fetch('/api/subscription/portal');
-      if (!res.ok) {
-        return { error: 'Customer billing portal configuration pending.' };
-      }
-      const data = await res.json();
-      return { portalUrl: data.portalUrl };
-    } catch {
-      return { error: 'Customer billing portal configuration pending.' };
-    }
+    return { error: 'To manage your subscription or request invoices, contact support@bizpilot.app' };
   }
 }
 

@@ -62,7 +62,7 @@ export const InfoModal: React.FC<InfoModalProps> = ({ type, onClose }) => {
           body: (
             <div className="space-y-4 text-sm text-slate-600 leading-relaxed">
               <p>
-                Have questions about our tools, suggestions for a new calculator, or inquiries regarding our upcoming BizPilot Premium release? We’d love to hear from you.
+                Have questions about our tools, suggestions for a new calculator, or inquiries regarding BizPilot Premium subscriptions? We’d love to hear from you.
               </p>
               <div className="bg-blue-50/60 p-4 rounded-xl border border-blue-100 space-y-2">
                 <div className="text-xs font-semibold text-blue-900">General Support &amp; Feedback:</div>

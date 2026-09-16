@@ -122,3 +122,41 @@ export interface ProposalData {
   proposalDate: string;
   currency: string;
 }
+
+export interface CashfreeOrderResponse {
+  success: boolean;
+  order_id?: string;
+  payment_session_id?: string;
+  order_amount?: number;
+  order_currency?: string;
+  order_status?: string;
+  environment?: 'sandbox' | 'production';
+  plan_id?: SubscriptionPlanId;
+  plan_name?: string;
+  isSandboxPreview?: boolean;
+  error?: string;
+  code?: string;
+}
+
+export interface CashfreeVerificationResponse {
+  verified: boolean;
+  order_id: string;
+  cf_order_id?: string | number;
+  order_status: string;
+  plan_id?: SubscriptionPlanId;
+  plan_name?: string;
+  amount?: number;
+  currency?: string;
+  paid_at?: string;
+  customer_email?: string;
+  customer_name?: string;
+  error?: string;
+  entitlement?: SubscriptionState;
+  isSandboxPreview?: boolean;
+}
+
+export interface CashfreeGatewayConfig {
+  isConfigured: boolean;
+  environment: 'sandbox' | 'production';
+  currency: string;
+}

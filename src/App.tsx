@@ -13,7 +13,7 @@ import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 
 import { PremiumModal } from './components/modals/PremiumModal';
-import { CheckoutComingSoonModal } from './components/modals/CheckoutComingSoonModal';
+import { CashfreeCheckoutModal } from './components/modals/CashfreeCheckoutModal';
 import { InfoModal } from './components/modals/InfoModal';
 import { Toast } from './components/Toast';
 
@@ -25,6 +25,8 @@ import { TOOL_SEO_PAGES } from './data/seoData';
 import { ToolPage } from './pages/ToolPage';
 import { ToolsHubPage } from './pages/ToolsHubPage';
 import { LegalPage, LegalPageType } from './pages/LegalPage';
+import { PaymentSuccessPage } from './pages/PaymentSuccessPage';
+import { PaymentCancelledPage } from './pages/PaymentCancelledPage';
 import { SubscriptionProvider } from './context/SubscriptionContext';
 
 function AppContent() {
@@ -134,6 +136,18 @@ function AppContent() {
           'Explore BizPilot Free and Premium pricing plans designed for freelancers, solopreneurs, and small businesses.'
         ),
       });
+    } else if (normalizedPath === '/payment-success') {
+      updateMetaTags({
+        title: 'Payment Confirmation — BizPilot Premium',
+        description: 'Your BizPilot Premium payment confirmation receipt and entitlement activation status.',
+        canonicalPath: '/payment-success',
+      });
+    } else if (normalizedPath === '/payment-cancelled') {
+      updateMetaTags({
+        title: 'Checkout Incomplete — BizPilot',
+        description: 'Your payment checkout was not completed. No charges were made.',
+        canonicalPath: '/payment-cancelled',
+      });
     }
   }, [normalizedPath]);
 
@@ -213,7 +227,16 @@ function AppContent() {
       );
     }
 
-    // 5. Default: Full Homepage
+    // 5. Payment Return Routes: /payment-success, /payment-cancelled
+    if (normalizedPath === '/payment-success') {
+      return <PaymentSuccessPage />;
+    }
+
+    if (normalizedPath === '/payment-cancelled') {
+      return <PaymentCancelledPage />;
+    }
+
+    // 6. Default: Full Homepage
     return (
       <>
         {/* Hero Section */}
@@ -319,7 +342,7 @@ function AppContent() {
         selectedToolName={selectedPremiumTool}
       />
 
-      <CheckoutComingSoonModal
+      <CashfreeCheckoutModal
         isOpen={isCheckoutModalOpen}
         onClose={() => setIsCheckoutModalOpen(false)}
         selectedPlanName={selectedPlanForCheckout}
