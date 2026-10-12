@@ -50,20 +50,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigatePricing }) => {
               </li>
               <li>
                 <Link
-                  href="/pricing"
-                  onClick={(e) => {
-                    if (onNavigatePricing && window.location.pathname === '/') {
-                      e.preventDefault();
-                      onNavigatePricing();
-                    }
-                  }}
-                  className="hover:text-white transition-colors"
-                >
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/about"
                   className="hover:text-white transition-colors"
                 >

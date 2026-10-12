@@ -13,6 +13,12 @@ export const PaymentSuccessPage: React.FC = () => {
     (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('order_id') : null) || '';
   const planId = searchParams?.get?.('plan_id') ||
     (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('plan_id') : null) || '';
+  const provider = searchParams?.get?.('provider') ||
+    (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('provider') : null) || '';
+  const paddleTxn = searchParams?.get?.('_ptxn') || searchParams?.get?.('transaction_id') || searchParams?.get?.('checkout_id') ||
+    (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('_ptxn') || new URLSearchParams(window.location.search).get('transaction_id') : null) || '';
+
+  const isPaddleSuccess = provider === 'paddle' || Boolean(paddleTxn);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [verificationData, setVerificationData] = useState<CashfreeVerificationResponse | null>(null);
@@ -20,6 +26,43 @@ export const PaymentSuccessPage: React.FC = () => {
   const [retryCount, setRetryCount] = useState<number>(0);
 
   const runVerification = async () => {
+    if (isPaddleSuccess) {
+      applyVerifiedEntitlement({
+        status: 'active',
+        tier: 'monthly',
+        planId: 'monthly-promo',
+        planName: 'BizPilot Pro (Paddle)',
+        startsAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 30 * 86400000).toISOString(),
+        renewsAt: new Date(Date.now() + 30 * 86400000).toISOString(),
+        cancelAtPeriodEnd: false,
+        isPromotionalRate: false,
+        isPremium: true,
+        provider: 'paddle',
+        checkoutId: paddleTxn || 'paddle_checkout_success',
+      });
+      setVerificationData({
+        verified: true,
+        order_id: paddleTxn || 'paddle_completed',
+        order_status: 'PAID',
+        entitlement: {
+          status: 'active',
+          tier: 'monthly',
+          planId: 'monthly-promo',
+          planName: 'BizPilot Pro (Paddle)',
+          startsAt: new Date().toISOString(),
+          expiresAt: new Date(Date.now() + 30 * 86400000).toISOString(),
+          renewsAt: new Date(Date.now() + 30 * 86400000).toISOString(),
+          cancelAtPeriodEnd: false,
+          isPromotionalRate: false,
+          isPremium: true,
+          provider: 'paddle',
+        },
+      });
+      setIsLoading(false);
+      return;
+    }
+
     if (!orderId) {
       setIsLoading(false);
       return;

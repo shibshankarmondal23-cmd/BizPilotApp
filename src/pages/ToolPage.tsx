@@ -142,17 +142,10 @@ export const ToolPage: React.FC<ToolPageProps> = ({
             <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
             <span>{toolConfig.category}</span>
             <span className="text-slate-300">•</span>
-            {toolConfig.isPremium ? (
-              <span className="font-bold text-amber-800 flex items-center gap-1">
-                <Sparkles className="w-3 h-3 text-amber-600" />
-                PREMIUM TOOL
-              </span>
-            ) : (
-              <span className="font-bold text-emerald-700 flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                100% FREE
-              </span>
-            )}
+            <span className="font-bold text-emerald-700 flex items-center gap-1">
+              <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+              100% FREE
+            </span>
             <span className="text-slate-300">•</span>
             <span>In-Browser Privacy</span>
           </div>
@@ -167,7 +160,7 @@ export const ToolPage: React.FC<ToolPageProps> = ({
             {toolConfig.introduction}
           </p>
 
-          {/* Quick Value Indicators & Upgrade CTA for Premium */}
+          {/* Quick Value Indicators */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-500 font-medium">
             <span className="inline-flex items-center gap-1.5">
               <Zap className="w-3.5 h-3.5 text-amber-500" />
@@ -178,41 +171,15 @@ export const ToolPage: React.FC<ToolPageProps> = ({
               100% Private In-Browser
             </span>
             <span className="inline-flex items-center gap-1.5">
-              {toolConfig.isPremium ? (
-                <span className="font-semibold text-amber-800">Premium Tool ($5 Deal)</span>
-              ) : (
-                <span className="font-semibold text-emerald-700">Free Forever Tool</span>
-              )}
+              <span className="font-semibold text-emerald-700">Free In-Browser Tool</span>
             </span>
           </div>
-
-          {toolConfig.isPremium && (
-            <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-3 p-3 px-5 rounded-2xl bg-amber-50/90 border border-amber-200/80 text-amber-950 text-xs">
-              <span className="font-bold flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-amber-600" />
-                <span>Premium suite tool • Included in the $5 First Month Deal</span>
-              </span>
-              <button
-                type="button"
-                onClick={() => onOpenUpgradeModal(toolConfig.name)}
-                className="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white font-bold hover:bg-blue-600 transition-colors cursor-pointer shadow-2xs"
-              >
-                Upgrade to Premium
-              </button>
-            </div>
-          )}
         </div>
       </header>
 
       {/* Main Tool Working Workspace */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200/90 p-4 sm:p-6 lg:p-8">
-          {toolConfig.isPremium && (
-            <UpgradeNoticeBanner
-              toolName={toolConfig.name}
-              onUpgradeClick={() => navigate('/pricing')}
-            />
-          )}
           {renderToolComponent()}
         </div>
 

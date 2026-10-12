@@ -22,13 +22,21 @@ const TOOL_SLUG_MAP: Record<string, string> = {
   'image-resizer': 'image-resizer',
 };
 
+const EVERYDAY_TOOL_IDS = new Set([
+  'percentage-calc',
+  'hourly-rate',
+  'hourly-rate-calc',
+  'word-counter',
+  'image-resizer',
+]);
+
 export const FreeToolsSection: React.FC<FreeToolsSectionProps> = ({
   filteredTools,
   onNotify,
   activeToolId,
   onSelectTool,
 }) => {
-  const freeTools = filteredTools.filter((t) => !t.isPremium);
+  const freeTools = filteredTools.filter((t) => EVERYDAY_TOOL_IDS.has(t.id));
 
   // When search or category filters change, ensure an available matching free tool is active
   useEffect(() => {
@@ -87,7 +95,7 @@ export const FreeToolsSection: React.FC<FreeToolsSectionProps> = ({
             Free Business Tools
           </h2>
           <p className="mt-2 text-base sm:text-lg text-slate-600">
-            Start with useful tools you can use without a Premium subscription.
+            Fast, practical calculators and utilities running directly inside your browser.
           </p>
         </div>
 

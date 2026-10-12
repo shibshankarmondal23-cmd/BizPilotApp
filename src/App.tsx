@@ -5,17 +5,15 @@ import { ValueProposition } from './components/ValueProposition';
 import { ToolSearchAndFilter } from './components/ToolSearchAndFilter';
 import { FreeToolsSection } from './components/FreeToolsSection';
 import { PremiumToolsSection } from './components/PremiumToolsSection';
-import { PricingSection } from './components/PricingSection';
-import { FreeVsPremiumSection } from './components/FreeVsPremiumSection';
-import { PremiumCtaSection } from './components/PremiumCtaSection';
 import { TrustSection } from './components/TrustSection';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 
 import { PremiumModal } from './components/modals/PremiumModal';
-import { CashfreeCheckoutModal } from './components/modals/CashfreeCheckoutModal';
+import { PaddleCheckoutModal } from './components/modals/PaddleCheckoutModal';
 import { InfoModal } from './components/modals/InfoModal';
 import { Toast } from './components/Toast';
+import { initializePaddle } from './services/paddleClient';
 
 import { ALL_TOOLS } from './data/toolsData';
 import { ToolCategory, InfoModalType } from './types';
@@ -53,6 +51,13 @@ function AppContent() {
 
   // Toast feedback state
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Pre-initialize Paddle.js for instant checkout overlay launch
+  useEffect(() => {
+    initializePaddle().catch(() => {
+      // Non-fatal if offline
+    });
+  }, []);
 
   const showNotification = (msg: string) => {
     setToastMessage(msg);
@@ -93,15 +98,12 @@ function AppContent() {
     }
   };
 
-  // Handlers
-  const handleOpenUpgradeModal = (toolName?: string) => {
-    setSelectedPremiumTool(toolName);
-    setIsPremiumModalOpen(true);
-  };
-
-  const handleSelectPlan = (planName: string) => {
-    setSelectedPlanForCheckout(planName);
-    setIsCheckoutModalOpen(true);
+  const handleOpenUpgradeModal = () => {
+    if (normalizedPath === '/') {
+      scrollToSection('generators-section');
+    } else {
+      navigate('/tools');
+    }
   };
 
   const handleExploreFree = () => {
@@ -127,26 +129,20 @@ function AppContent() {
       });
     } else if (normalizedPath === '/pricing') {
       updateMetaTags({
-        title: 'BizPilot Pricing — Free & Premium Business Tool Plans',
-        description: 'Transparent, budget-friendly pricing for freelancers and small businesses. Start free forever or upgrade to BizPilot Premium for just $5/month.',
-        canonicalPath: '/pricing',
+        title: 'BizPilot Tools — Free Business Tools & Generators',
+        description: 'Explore BizPilot free business calculators, productivity utilities, and client document generators with zero fees.',
+        canonicalPath: '/tools',
         schema: getPageSchema(
-          'BizPilot Pricing',
-          '/pricing',
-          'Explore BizPilot Free and Premium pricing plans designed for freelancers, solopreneurs, and small businesses.'
+          'BizPilot Tools',
+          '/tools',
+          'Explore BizPilot free business tools and calculators designed for freelancers and small businesses.'
         ),
       });
-    } else if (normalizedPath === '/payment-success') {
+    } else if (normalizedPath === '/payment-success' || normalizedPath === '/payment-cancelled') {
       updateMetaTags({
-        title: 'Payment Confirmation — BizPilot Premium',
-        description: 'Your BizPilot Premium payment confirmation receipt and entitlement activation status.',
-        canonicalPath: '/payment-success',
-      });
-    } else if (normalizedPath === '/payment-cancelled') {
-      updateMetaTags({
-        title: 'Checkout Incomplete — BizPilot',
-        description: 'Your payment checkout was not completed. No charges were made.',
-        canonicalPath: '/payment-cancelled',
+        title: 'BizPilot — Free Business Tools',
+        description: 'BizPilot provides free in-browser business calculators and document generators.',
+        canonicalPath: '/tools',
       });
     }
   }, [normalizedPath]);
@@ -198,45 +194,12 @@ function AppContent() {
       return <LegalPage type={pageType} onNotify={showNotification} />;
     }
 
-    // 4. Pricing Dedicated Route: /pricing
-    if (normalizedPath === '/pricing') {
-      return (
-        <div className="py-8 bg-slate-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
-            <nav aria-label="Breadcrumb" className="text-xs text-slate-500 mb-6">
-              <ol className="flex items-center space-x-2">
-                <li>
-                  <Link href="/" className="hover:text-blue-600 transition-colors">
-                    Home
-                  </Link>
-                </li>
-                <li>/</li>
-                <li className="text-slate-900 font-semibold" aria-current="page">
-                  Pricing Plans
-                </li>
-              </ol>
-            </nav>
-          </div>
-          <PricingSection onSelectPlan={handleSelectPlan} />
-          <FreeVsPremiumSection
-            onExploreFree={() => navigate('/tools')}
-            onOpenPremium={() => handleOpenUpgradeModal()}
-          />
-          <FaqSection />
-        </div>
-      );
+    // 4. Pricing / Payment Return Routes: Route to Tools directory
+    if (['/pricing', '/payment-success', '/payment-cancelled'].includes(normalizedPath)) {
+      return <ToolsHubPage onOpenUpgradeModal={handleOpenUpgradeModal} />;
     }
 
-    // 5. Payment Return Routes: /payment-success, /payment-cancelled
-    if (normalizedPath === '/payment-success') {
-      return <PaymentSuccessPage />;
-    }
-
-    if (normalizedPath === '/payment-cancelled') {
-      return <PaymentCancelledPage />;
-    }
-
-    // 6. Default: Full Homepage
+    // 5. Default: Full Homepage
     return (
       <>
         {/* Hero Section */}
@@ -268,7 +231,7 @@ function AppContent() {
           onSelectTool={setActiveFreeToolId}
         />
 
-        {/* Premium Tools Section (Locked cards & interactive preview generators) */}
+        {/* Document Generators & Margin Analysis */}
         <PremiumToolsSection
           filteredTools={filteredTools}
           onOpenUpgradeModal={handleOpenUpgradeModal}
@@ -277,20 +240,8 @@ function AppContent() {
           onNotify={showNotification}
         />
 
-        {/* Free vs. Premium Comparison Section */}
-        <FreeVsPremiumSection
-          onExploreFree={() => scrollToSection('tools-section')}
-          onOpenPremium={() => handleOpenUpgradeModal()}
-        />
-
         {/* Trust Section */}
         <TrustSection />
-
-        {/* Premium CTA Banner */}
-        <PremiumCtaSection onUnlockPremium={() => handleOpenUpgradeModal()} />
-
-        {/* Pricing Section (4 plans + $5 intro highlight) */}
-        <PricingSection onSelectPlan={handleSelectPlan} />
 
         {/* FAQ Section (9 accordions) */}
         <FaqSection />
@@ -317,15 +268,7 @@ function AppContent() {
       </main>
 
       {/* Footer */}
-      <Footer
-        onNavigatePricing={() => {
-          if (normalizedPath === '/') {
-            scrollToSection('pricing-section');
-          } else {
-            navigate('/pricing');
-          }
-        }}
-      />
+      <Footer />
 
       {/* Modals */}
       <PremiumModal
@@ -333,16 +276,12 @@ function AppContent() {
         onClose={() => setIsPremiumModalOpen(false)}
         onViewPlans={() => {
           setIsPremiumModalOpen(false);
-          if (normalizedPath === '/') {
-            scrollToSection('pricing-section');
-          } else {
-            navigate('/pricing');
-          }
+          handleOpenUpgradeModal();
         }}
         selectedToolName={selectedPremiumTool}
       />
 
-      <CashfreeCheckoutModal
+      <PaddleCheckoutModal
         isOpen={isCheckoutModalOpen}
         onClose={() => setIsCheckoutModalOpen(false)}
         selectedPlanName={selectedPlanForCheckout}

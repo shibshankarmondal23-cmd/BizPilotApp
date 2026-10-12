@@ -68,6 +68,38 @@ function cashfreeApiPlugin(): Plugin {
           }));
         }
 
+        if (pathname === '/api/paddle-config') {
+          const clientToken = (
+            process.env.VITE_PADDLE_CLIENT_TOKEN ||
+            process.env.PADDLE_CLIENT_TOKEN ||
+            process.env.PADDLE_CLIENT_SIDE_TOKEN ||
+            process.env.PADDLE_LIVE_CLIENT_TOKEN ||
+            process.env.LIVE_PADDLE_CLIENT_TOKEN ||
+            process.env.PADDLE_TOKEN ||
+            ''
+          ).trim();
+
+          const envRaw = (
+            process.env.PADDLE_ENV ||
+            process.env.VITE_PADDLE_ENV ||
+            ''
+          ).toLowerCase().trim();
+
+          const environment = (envRaw === 'sandbox' || clientToken.startsWith('test_')) ? 'sandbox' : 'production';
+
+          res.statusCode = 200;
+          return res.end(JSON.stringify({
+            clientToken,
+            priceId: 'pri_01m2savsge647877w8vv6mvbjy',
+            environment,
+            isConfigured: Boolean(clientToken),
+            planName: 'BizPilot Pro',
+            price: '$9.99',
+            billingCycle: 'month',
+            defaultPaymentLink: 'https://bizpilot-2264.ai.studio',
+          }));
+        }
+
         if (pathname === '/api/create-order') {
           if (req.method !== 'POST') {
             res.statusCode = 405;
@@ -170,6 +202,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tailwindcss(), cashfreeApiPlugin()],
+    define: {
+      'import.meta.env.VITE_PADDLE_PRICE_ID': JSON.stringify('pri_01m2savsge647877w8vv6mvbjy'),
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

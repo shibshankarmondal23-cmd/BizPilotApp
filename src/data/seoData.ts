@@ -91,7 +91,7 @@ export const TOOL_SEO_PAGES: Record<string, ToolSeoConfig> = {
     h1: 'Profit Margin & Markup Calculator',
     introduction: 'Accurately compute gross profit margins, markup multipliers, and net cash margins to ensure your freelance projects, consulting engagements, and client deliverables remain sustainably profitable after accounting for direct costs.',
     category: 'Calculators',
-    isPremium: true,
+    isPremium: false,
     howToUseSteps: [
       'Enter your total project or product cost (labor, software, materials, sub-contractors).',
       'Enter your selling price or client revenue figure.',
@@ -303,7 +303,7 @@ export const TOOL_SEO_PAGES: Record<string, ToolSeoConfig> = {
     h1: 'Free PDF Invoice Generator',
     introduction: 'Generate clean, print-ready PDF invoices for your freelance clients and business customers directly in your browser. Add itemized services, apply custom discounts and taxes, specify bank payment details, and export instantly with zero account registration.',
     category: 'Business',
-    isPremium: true,
+    isPremium: false,
     howToUseSteps: [
       'Fill in your business details (name, email, address, phone) and your client contact information.',
       'Specify invoice number, invoice date, due date, and currency.',
@@ -357,7 +357,7 @@ export const TOOL_SEO_PAGES: Record<string, ToolSeoConfig> = {
     h1: 'Free Price Quote & Job Estimate Generator',
     introduction: 'Build formal price quotes and project estimates to secure client agreements before beginning work. Specify line-item deliverables, quote validity periods, deposit terms, and signature approval lines in an exportable PDF document.',
     category: 'Business',
-    isPremium: true,
+    isPremium: false,
     howToUseSteps: [
       'Enter your business info, client info, quote number, and quote expiration period.',
       'Add itemized goods or services with descriptions, quantities, and estimated unit rates.',
@@ -411,7 +411,7 @@ export const TOOL_SEO_PAGES: Record<string, ToolSeoConfig> = {
     h1: 'Free Project Proposal Generator',
     introduction: 'Win high-value client contracts with structured, executive project proposals. Present project scope, milestones, deliverables, payment terms, and client sign-off in a beautifully styled multi-page PDF document created entirely in your browser.',
     category: 'Business',
-    isPremium: true,
+    isPremium: false,
     howToUseSteps: [
       'Enter your business name, lead contact, and client details.',
       'Write your project description, scope of work, deliverables, and timeline milestones.',

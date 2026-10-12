@@ -48,12 +48,12 @@ export const ToolsHubPage: React.FC<ToolsHubPageProps> = ({ onOpenUpgradeModal }
   useEffect(() => {
     updateMetaTags({
       title: 'Business Tools & Calculators for Freelancers & Small Business | BizPilot',
-      description: 'Explore BizPilot tools: free business calculators (percentage, hourly rate, word counter, image resizer) and premium business tools (profit margin, invoice, quote, and proposal generators).',
+      description: 'Explore BizPilot tools: free business calculators (percentage, hourly rate, word counter, image resizer) and business document generators (profit margin, invoice, quote, and proposal generators).',
       canonicalPath: '/tools',
       schema: getPageSchema(
         'Business Tools & Calculators',
         '/tools',
-        'Directory of free business calculators and premium business document generators on BizPilot.'
+        'Directory of free business calculators and document generators on BizPilot.'
       )
     });
   }, []);
@@ -131,7 +131,7 @@ export const ToolsHubPage: React.FC<ToolsHubPageProps> = ({ onOpenUpgradeModal }
             </span>
             <span className="flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-              Free Forever Essentials
+              100% Free Tools
             </span>
           </div>
         </div>
@@ -198,14 +198,8 @@ export const ToolsHubPage: React.FC<ToolsHubPageProps> = ({ onOpenUpgradeModal }
                     <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
                       {ICON_MAP[tool.iconName] || <Sparkles className="w-5 h-5 text-blue-600" />}
                     </div>
-                    <span
-                      className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${
-                        tool.isPremium
-                          ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                          : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                      }`}
-                    >
-                      {tool.isPremium ? 'Premium Generator' : 'Free Tool'}
+                    <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      {tool.badge || 'Free Tool'}
                     </span>
                   </div>
 
@@ -236,14 +230,9 @@ export const ToolsHubPage: React.FC<ToolsHubPageProps> = ({ onOpenUpgradeModal }
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   ) : (
-                    <button
-                      type="button"
-                      onClick={() => onOpenUpgradeModal(tool.name)}
-                      className="inline-flex items-center gap-1 text-xs font-bold text-amber-600 hover:text-amber-700 cursor-pointer"
-                    >
-                      <span>Preview Tool</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-slate-400">
+                      <span>Upcoming</span>
+                    </span>
                   )}
                 </div>
               </div>

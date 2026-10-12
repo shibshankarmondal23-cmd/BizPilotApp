@@ -44,7 +44,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type, onNotify }) => {
         break;
       case 'terms':
         title = 'Terms of Use — Service Terms & Guidelines | BizPilot';
-        description = 'Review the terms of use for BizPilot free and premium business calculation and document generation tools.';
+        description = 'Review the terms of use for BizPilot business calculation and document generation tools.';
         canonicalPath = '/terms';
         break;
       case 'disclaimer':

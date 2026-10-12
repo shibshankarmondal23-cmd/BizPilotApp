@@ -27,7 +27,7 @@ export const FaqSection: React.FC = () => {
             Frequently Asked Questions
           </h2>
           <p className="mt-2 text-base text-slate-500">
-            Straightforward answers about BizPilot tools, free access, privacy, and plans.
+            Straightforward answers about BizPilot tools, free access, privacy, and features.
           </p>
         </div>
 

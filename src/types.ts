@@ -18,6 +18,8 @@ export interface SubscriptionEntitlement {
   isPromotionalRate: boolean;
   customerId?: string | null;
   subscriptionId?: string | null;
+  provider?: string | null;
+  checkoutId?: string | null;
 }
 
 export interface SubscriptionState extends SubscriptionEntitlement {

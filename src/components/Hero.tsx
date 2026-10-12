@@ -56,14 +56,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreFree, onUnlockPremium }) =>
             className="w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-900 border-2 border-slate-200 hover:border-slate-300 text-base font-bold shadow-xs transition-all cursor-pointer"
           >
             <Sparkles className="w-4 h-4 text-blue-600" />
-            <span>Unlock Premium — First Month $5</span>
+            <span>Document Generators</span>
           </button>
         </div>
 
         {/* Trust & Value Message */}
         <div className="mt-6 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-slate-500">
           <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-          <span>No complicated setup. Start with free tools.</span>
+          <span>No complicated setup. 100% free to use.</span>
         </div>
 
         {/* Interactive App Preview Showcase Box */}
@@ -75,10 +75,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreFree, onUnlockPremium }) =>
             </div>
             <div className="flex items-center gap-3">
               <span className="bg-white border border-slate-200 px-2.5 py-1 rounded-md text-emerald-700 font-bold text-[11px]">
-                4 Free Tools Active
+                All Tools 100% Free
               </span>
               <span className="bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-md text-blue-700 font-bold text-[11px]">
-                Intro: First Month $5
+                In-Browser Privacy
               </span>
             </div>
           </div>
@@ -142,7 +142,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreFree, onUnlockPremium }) =>
           <div className="p-3 rounded-xl bg-slate-50/80 border border-slate-200/60 flex items-center gap-2.5">
             <Sparkles className="w-4 h-4 text-indigo-600 shrink-0" />
             <div className="text-xs">
-              <span className="font-bold text-slate-900 block">5 Free Forever Tools</span>
+              <span className="font-bold text-slate-900 block">8 Free In-Browser Tools</span>
               <span className="text-slate-500">Instant use anytime</span>
             </div>
           </div>

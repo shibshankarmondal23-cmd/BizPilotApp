@@ -168,9 +168,9 @@ export const QuoteGenerator: React.FC<Props> = ({ onNotify, onOpenUpgradeModal }
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Quote Generator</h3>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-teal-50 text-teal-700 border border-teal-200/80 flex items-center gap-1">
-                <Sparkles className="w-3 h-3 text-amber-500" />
-                <span>BizPilot Premium</span>
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/80 flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                <span>100% Free Tool</span>
               </span>
             </div>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">
@@ -521,15 +521,6 @@ export const QuoteGenerator: React.FC<Props> = ({ onNotify, onOpenUpgradeModal }
                 <strong>100% In-Browser Privacy:</strong> Your quote is generated in your browser. No project rates or client details are sent to a remote database.
               </span>
             </div>
-            {onOpenUpgradeModal && (
-              <button
-                type="button"
-                onClick={onOpenUpgradeModal}
-                className="text-xs font-bold text-teal-700 hover:text-teal-800 underline shrink-0 cursor-pointer"
-              >
-                $5 deal details
-              </button>
-            )}
           </div>
         </div>
 

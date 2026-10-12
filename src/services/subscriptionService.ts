@@ -76,113 +76,56 @@ export const DEFAULT_GUEST_SUBSCRIPTION: SubscriptionState = {
 /**
  * Check whether a given tool ID or slug is premium
  */
-export function isToolPremium(toolIdOrSlug: string): boolean {
-  const normalized = toolIdOrSlug.toLowerCase().trim();
-  return PREMIUM_TOOL_IDENTIFIERS.has(normalized);
+export function isToolPremium(_toolIdOrSlug: string): boolean {
+  return false;
 }
 
 /**
  * Check whether a given tool ID or slug is free
  */
-export function isToolFree(toolIdOrSlug: string): boolean {
-  const normalized = toolIdOrSlug.toLowerCase().trim();
-  return FREE_TOOL_IDENTIFIERS.has(normalized);
+export function isToolFree(_toolIdOrSlug: string): boolean {
+  return true;
 }
 
 /**
  * Helper to check if a subscription has an active entitlement
  */
-export function isSubscriptionActive(sub: SubscriptionState): boolean {
-  if (sub.status === 'active') {
-    // If expiresAt is set, check date
-    if (sub.expiresAt) {
-      return new Date(sub.expiresAt).getTime() > Date.now();
-    }
-    return true;
-  }
-
-  // If user cancelled, they keep access until expiry
-  if (sub.status === 'cancelled' && sub.expiresAt) {
-    return new Date(sub.expiresAt).getTime() > Date.now();
-  }
-
-  return false;
+export function isSubscriptionActive(_sub?: SubscriptionState): boolean {
+  return true;
 }
 
 /**
  * Helper to check if a subscription is expired
  */
-export function isSubscriptionExpired(sub: SubscriptionState): boolean {
-  if (sub.status === 'expired') return true;
-  if (sub.expiresAt && new Date(sub.expiresAt).getTime() <= Date.now()) return true;
+export function isSubscriptionExpired(_sub?: SubscriptionState): boolean {
   return false;
 }
 
 /**
  * Format plan tier badge for UI displays
  */
-export function getSubscriptionTierLabel(tier: SubscriptionTier): string {
-  switch (tier) {
-    case 'monthly':
-      return 'Premium Monthly';
-    case '3-months':
-      return '3-Month Premium';
-    case '6-months':
-      return '6-Month Premium';
-    case '1-year':
-      return '1-Year Premium';
-    case 'free':
-    default:
-      return 'Free Plan';
-  }
+export function getSubscriptionTierLabel(_tier?: SubscriptionTier): string {
+  return 'Free';
 }
 
 /**
  * Format status badge for UI displays
  */
-export function getSubscriptionStatusLabel(status: SubscriptionStatus): {
+export function getSubscriptionStatusLabel(_status?: SubscriptionStatus): {
   label: string;
   badgeClass: string;
 } {
-  switch (status) {
-    case 'active':
-      return { label: 'Active', badgeClass: 'bg-emerald-50 text-emerald-800 border-emerald-200' };
-    case 'cancelled':
-      return { label: 'Cancelled', badgeClass: 'bg-amber-50 text-amber-800 border-amber-200' };
-    case 'expired':
-      return { label: 'Expired', badgeClass: 'bg-rose-50 text-rose-800 border-rose-200' };
-    case 'loading':
-      return { label: 'Syncing', badgeClass: 'bg-slate-100 text-slate-700 border-slate-200' };
-    case 'free':
-    default:
-      return { label: 'Free Tier', badgeClass: 'bg-slate-100 text-slate-800 border-slate-200' };
-  }
+  return { label: 'Free', badgeClass: 'bg-slate-100 text-slate-800 border-slate-200' };
 }
 
 /**
  * Check whether a user with given subscription state can access a tool
  */
 export function canUserAccessTool(
-  toolIdOrSlug: string,
-  subscription: SubscriptionState = DEFAULT_GUEST_SUBSCRIPTION
+  _toolIdOrSlug: string,
+  _subscription: SubscriptionState = DEFAULT_GUEST_SUBSCRIPTION
 ): boolean {
-  // Free tools are always accessible to all users (including unauthenticated guests)
-  if (isToolFree(toolIdOrSlug)) {
-    return true;
-  }
-
-  // Active or unexpired cancelled subscribers have full access to premium tools
-  if (isSubscriptionActive(subscription)) {
-    return true;
-  }
-
-  // If strict locking is disabled, allow preview mode with upgrade banners
-  if (!ENFORCE_STRICT_PREMIUM_LOCK) {
-    return true;
-  }
-
-  // Otherwise, locked for non-entitled users
-  return false;
+  return true;
 }
 
 /**

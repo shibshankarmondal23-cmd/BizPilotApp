@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Compass, Menu, X, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Compass, Menu, X, Sparkles } from 'lucide-react';
 import { Link, useRouter } from '../utils/router';
-import { useSubscription } from '../context/SubscriptionContext';
 
 interface NavbarProps {
-  onOpenPremium: () => void;
-  onExploreFree: () => void;
+  onOpenPremium?: () => void;
+  onExploreFree?: () => void;
   onOpenAbout?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({
-  onOpenPremium,
-  onExploreFree,
-}) => {
+export const Navbar: React.FC<NavbarProps> = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { pathname, navigate } = useRouter();
-  const { isPremium, status, tierLabel, isCancelled, isExpired } = useSubscription();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </Link>
 
-          {/* Desktop Navigation: Tools, Premium, Pricing, About */}
+          {/* Desktop Navigation: Tools, Generators, About, Contact */}
           <nav className="hidden md:flex items-center gap-8" aria-label="Main Navigation">
             <Link
               href="/tools"
@@ -95,36 +90,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             </Link>
             <button
               type="button"
-              onClick={() => handleNavClick('premium-tools-section', '/#premium-tools-section')}
+              onClick={() => handleNavClick('generators-section', '/#generators-section')}
               className="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors py-2 flex items-center gap-1.5 cursor-pointer"
-              id="nav-link-premium"
+              id="nav-link-generators"
             >
-              <span>Premium</span>
-              <span className="px-1.5 py-0.5 text-[10px] font-extrabold bg-amber-100 text-amber-900 rounded-md">
-                PREMIUM
-              </span>
+              <span>Generators</span>
             </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick('comparison-section', '/#comparison-section')}
-              className="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors py-2 cursor-pointer"
-              id="nav-link-compare"
-            >
-              Free vs Premium
-            </button>
-            <Link
-              href="/pricing"
-              onClick={(e) => {
-                if (pathname === '/') {
-                  e.preventDefault();
-                  handleNavClick('pricing-section', '/pricing');
-                }
-              }}
-              className="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors py-2"
-              id="nav-link-pricing"
-            >
-              Pricing
-            </Link>
             <Link
               href="/about"
               className="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors py-2"
@@ -132,68 +103,37 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               About
             </Link>
+            <Link
+              href="/contact"
+              className="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors py-2"
+              id="nav-link-contact"
+            >
+              Contact
+            </Link>
           </nav>
 
-          {/* Right Side Desktop CTA: Start Premium or Entitlement Status */}
+          {/* Right Side Desktop CTA: Explore Free Tools */}
           <div className="hidden md:flex items-center gap-3">
             <button
               type="button"
               onClick={() => handleNavClick('tools-section', '/tools')}
-              className="px-4 py-2.5 text-sm font-bold text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer"
-              id="nav-cta-explore-free"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-slate-900 hover:bg-blue-600 rounded-xl shadow-xs transition-all hover:shadow-sm cursor-pointer"
+              id="nav-cta-explore-tools"
             >
-              Explore Free Tools
+              <Sparkles className="w-4 h-4 text-blue-300" />
+              <span>Explore Free Tools</span>
             </button>
-
-            {isPremium ? (
-              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>{tierLabel} • Active</span>
-              </div>
-            ) : isCancelled ? (
-              <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold">
-                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
-                <span>Cancelled (Active)</span>
-              </div>
-            ) : isExpired ? (
-              <button
-                type="button"
-                onClick={onOpenPremium}
-                className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-rose-800 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-xl shadow-xs transition-colors cursor-pointer"
-              >
-                <AlertCircle className="w-4 h-4 text-rose-600" />
-                <span>Expired • Renew Plan</span>
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={onOpenPremium}
-                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-slate-900 hover:bg-blue-600 rounded-xl shadow-xs transition-all hover:shadow-sm cursor-pointer"
-                id="nav-cta-start-premium"
-              >
-                <Sparkles className="w-4 h-4 text-amber-300" />
-                <span>Start Premium ($5 Promo)</span>
-              </button>
-            )}
           </div>
 
           {/* Mobile Actions */}
           <div className="flex md:hidden items-center gap-2">
-            {isPremium ? (
-              <span className="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                <span>Active</span>
-              </span>
-            ) : (
-              <button
-                type="button"
-                onClick={onOpenPremium}
-                className="min-h-[44px] px-3.5 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-blue-600 rounded-xl shadow-xs flex items-center gap-1 cursor-pointer"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                <span>$5 Promo</span>
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => handleNavClick('tools-section', '/tools')}
+              className="min-h-[44px] px-3.5 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-blue-600 rounded-xl shadow-xs flex items-center gap-1 cursor-pointer"
+            >
+              <span>Tools</span>
+            </button>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -230,35 +170,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             </Link>
             <button
               type="button"
-              onClick={() => handleNavClick('premium-tools-section', '/#premium-tools-section')}
+              onClick={() => handleNavClick('generators-section', '/#generators-section')}
               className="w-full text-left min-h-[44px] px-3 py-2.5 text-base font-bold text-slate-800 hover:bg-slate-50 rounded-xl flex items-center justify-between cursor-pointer"
             >
-              <span>Premium</span>
-              <span className="px-2 py-0.5 text-xs font-bold bg-amber-100 text-amber-900 rounded-md">
-                PREMIUM
-              </span>
+              <span>Generators</span>
             </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick('comparison-section', '/#comparison-section')}
-              className="w-full text-left min-h-[44px] px-3 py-2.5 text-base font-bold text-slate-800 hover:bg-slate-50 rounded-xl cursor-pointer"
-            >
-              Free vs Premium
-            </button>
-            <Link
-              href="/pricing"
-              onClick={(e) => {
-                if (pathname === '/') {
-                  e.preventDefault();
-                  handleNavClick('pricing-section', '/pricing');
-                } else {
-                  setMobileMenuOpen(false);
-                }
-              }}
-              className="w-full text-left min-h-[44px] px-3 py-2.5 text-base font-bold text-slate-800 hover:bg-slate-50 rounded-xl"
-            >
-              Pricing
-            </Link>
             <Link
               href="/about"
               onClick={() => setMobileMenuOpen(false)}
@@ -279,20 +195,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={() => handleNavClick('tools-section', '/tools')}
-              className="w-full min-h-[44px] py-2.5 text-sm font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl text-center cursor-pointer"
-            >
-              Explore Free Tools
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenPremium();
-              }}
               className="w-full min-h-[44px] py-2.5 text-sm font-bold text-white bg-slate-900 hover:bg-blue-600 rounded-xl text-center flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
             >
               <Sparkles className="w-4 h-4 text-blue-300" />
-              <span>Start Premium — First Month $5</span>
+              <span>Explore Free Tools</span>
             </button>
           </div>
         </div>
