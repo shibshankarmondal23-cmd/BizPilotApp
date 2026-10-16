@@ -278,9 +278,10 @@ export const PremiumToolsSection: React.FC<PremiumToolsProps> = ({
                             <Link
                               href={`/tools/${PREMIUM_SLUG_MAP[tool.id]}`}
                               onClick={(e) => e.stopPropagation()}
+                              aria-label={`Open dedicated ${tool.name} page`}
                               className="text-[11px] font-semibold text-slate-500 hover:text-blue-600 transition-colors inline-flex items-center gap-1"
                             >
-                              <span>Dedicated page</span>
+                              <span>Open {tool.name}</span>
                               <ArrowRight className="w-2.5 h-2.5" />
                             </Link>
                           </div>

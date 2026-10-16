@@ -156,9 +156,10 @@ export const FreeToolsSection: React.FC<FreeToolsSectionProps> = ({
                       <div className="flex items-center justify-center mt-2.5">
                         <Link
                           href={`/tools/${TOOL_SLUG_MAP[tool.id]}`}
+                          aria-label={`Open dedicated ${tool.name} page`}
                           className="text-[11px] font-semibold text-slate-500 hover:text-blue-600 transition-colors inline-flex items-center gap-1"
                         >
-                          <span>Dedicated page</span>
+                          <span>Open {tool.name}</span>
                           <ArrowRight className="w-2.5 h-2.5" />
                         </Link>
                       </div>
