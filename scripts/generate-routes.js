@@ -231,11 +231,11 @@ const TOOL_ROUTES = [
   {
     route: '/tools/quote-generator',
     name: 'Quote Generator',
-    title: 'Free Quote Generator — Create Job Estimates & PDF Quotes | BizPilot',
-    description: 'Generate professional price quotes and job estimates for clients. Set validity periods, payment terms, discounts, and download formatted PDFs instantly.',
-    h1: 'Free Price Quote & Job Estimate Generator',
+    title: 'Business Quote Generator — Free Price Quote Template | BizPilot',
+    description: 'Free business quote generator for freelancers and contractors. Create customizable price quote templates with line items, terms, and instant PDF download.',
+    h1: 'Free Business Quote Generator',
     category: 'Business',
-    introduction: 'Build formal price quotes and project estimates to secure client agreements before beginning work. Specify line-item deliverables, quote validity periods, deposit terms, and signature approval lines in an exportable PDF document.',
+    introduction: 'Create professional price quotes and project estimates in minutes with BizPilot\'s free business quote generator. Customize clean price quote templates with itemized services, tax rates, validity windows, and approval signature blocks—all generated privately in your browser with instant PDF export.',
     howToUseSteps: [
       'Enter your business info, client info, quote number, and quote expiration period.',
       'Add itemized goods or services with descriptions, quantities, and estimated unit rates.',
@@ -245,19 +245,40 @@ const TOOL_ROUTES = [
     faqs: [
       {
         question: 'What is the difference between a quote and an invoice?',
-        answer: 'A price quote is sent before starting work to outline estimated costs and agree on deliverables. An invoice is issued after work is completed to request payment.'
+        answer: 'A price quote is sent before starting work to outline estimated costs, deliverables, and terms for client agreement. An invoice is issued after work is completed (or at agreed project milestones) to collect payment.'
+      },
+      {
+        question: 'How long should a business price quote remain valid?',
+        answer: 'Most independent contractors and businesses specify a validity window of 14 to 30 days. Setting an expiration date protects you against supplier price changes, material inflation, and scope drift before a project is confirmed.'
+      },
+      {
+        question: 'Does this price quote template include a client signature line?',
+        answer: 'Yes. BizPilot\'s quote template automatically formats a formal acceptance section with client signature and date fields for approval before project commencement.'
+      },
+      {
+        question: 'Can I customize this price quote template with my own currency and terms?',
+        answer: 'Yes. You can choose from major currencies (USD, EUR, GBP, CAD, AUD), apply custom sales tax or VAT rates, include promotional discounts, and specify milestone payment terms.'
+      },
+      {
+        question: 'Are my quote details, rates, or client information stored on a server?',
+        answer: 'No. All calculations, data entry, and PDF exports are processed 100% locally inside your web browser. No confidential client names, project scopes, or pricing figures are stored on external databases.'
       }
     ],
     relatedTools: [
       {
-        name: 'Invoice Generator',
-        route: '/tools/invoice-generator',
-        reason: 'Convert accepted client quotes into official payment invoices.'
-      },
-      {
         name: 'Proposal Generator',
         route: '/tools/proposal-generator',
-        reason: 'Attach formal price quotes to comprehensive project proposals.'
+        reason: 'Expand your quote into a full strategic project proposal with detailed milestones.'
+      },
+      {
+        name: 'Invoice Generator',
+        route: '/tools/invoice-generator',
+        reason: 'Turn approved quotes into deposit invoices or final payment requests.'
+      },
+      {
+        name: 'Hourly Rate Calculator',
+        route: '/tools/hourly-rate-calculator',
+        reason: 'Use your target hourly billable rate to calculate itemized labor hours accurately.'
       }
     ]
   },
