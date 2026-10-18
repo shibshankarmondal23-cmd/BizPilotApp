@@ -11,6 +11,16 @@ export interface ToolFaq {
   answer: string;
 }
 
+export interface GuideItem {
+  heading: string;
+  description: string;
+}
+
+export interface ToolGuideSection {
+  title: string;
+  items: GuideItem[];
+}
+
 export interface ToolSeoConfig {
   id: string;
   route: string;
@@ -25,6 +35,7 @@ export interface ToolSeoConfig {
   relatedTools: RelatedToolLink[];
   faqs: ToolFaq[];
   howToUseSteps: string[];
+  guideSection?: ToolGuideSection;
 }
 
 export const TOOL_SEO_PAGES: Record<string, ToolSeoConfig> = {
@@ -352,18 +363,36 @@ export const TOOL_SEO_PAGES: Record<string, ToolSeoConfig> = {
     route: '/tools/quote-generator',
     toolKey: 'quote-gen',
     name: 'Quote Generator',
-    title: 'Business Quote Generator — Free Price Quote Template | BizPilot',
+    title: 'Free Business Quote Generator — PDF Quote Template | BizPilot',
     description: 'Free business quote generator for freelancers and contractors. Create customizable price quote templates with line items, terms, and instant PDF download.',
     h1: 'Free Business Quote Generator',
     introduction: 'Create professional price quotes and project estimates in minutes with BizPilot\'s free business quote generator. Customize clean price quote templates with itemized services, tax rates, validity windows, and approval signature blocks—all generated privately in your browser with instant PDF export.',
     category: 'Business',
     isPremium: false,
     howToUseSteps: [
-      'Enter your business info, client info, quote number, and quote expiration period.',
-      'Add itemized goods or services with descriptions, quantities, and estimated unit rates.',
-      'Include acceptance terms, deposit expectations, or notes for the client.',
-      'Download your formatted PDF quote ready for client review and signature.'
+      'Enter your business details, client contact info, quote number, and date of issue.',
+      'Set a quote validity period (e.g. 14–30 days) to lock in rates and protect against scope creep.',
+      'Add itemized goods or services with descriptions, quantities, and unit rates. Subtotals and taxes calculate automatically.',
+      'Specify acceptance terms, deposit expectations, or client project notes.',
+      'Download your client-ready PDF quote complete with an approval signature block.'
     ],
+    guideSection: {
+      title: 'Guide: How to Create Professional Business Quotes',
+      items: [
+        {
+          heading: 'What Every Business Quote Should Include',
+          description: 'A complete quote should feature your business branding, client contact info, a unique quote number, issue and expiration dates, an itemized list of deliverables with unit rates, subtotal/tax/discount calculations, and explicit acceptance terms with a client signature line.'
+        },
+        {
+          heading: 'Quote vs. Estimate vs. Invoice: Key Differences',
+          description: 'A price quote is a fixed-price commitment agreed upon before work starts and becomes binding upon client signature. An estimate is a rough, non-binding ballpark figure when exact project requirements are uncertain. An invoice is a payment demand issued after deliverables or milestones are fulfilled.'
+        },
+        {
+          heading: 'Why Expiration Dates Protect Your Business',
+          description: 'Setting a 14 to 30 day validity window on price quotes protects freelancers and contractors from rising third-party expenses, material inflation, and scheduling conflicts, while giving prospects a clear timeline to commit to the project.'
+        }
+      ]
+    },
     relatedTools: [
       {
         id: 'proposal-gen',
@@ -388,7 +417,11 @@ export const TOOL_SEO_PAGES: Record<string, ToolSeoConfig> = {
     faqs: [
       {
         question: 'What is the difference between a quote and an invoice?',
-        answer: 'A price quote is sent before starting work to outline estimated costs, deliverables, and terms for client agreement. An invoice is issued after work is completed (or at agreed project milestones) to collect payment.'
+        answer: 'A price quote is sent before starting work to outline estimated costs, deliverables, and payment terms for client agreement. An invoice is issued after work is completed (or at agreed project milestones) to collect payment with remittance instructions.'
+      },
+      {
+        question: 'What should a professional business quote include?',
+        answer: 'A professional business quote should include your company details, client contact information, unique quote number, issue and expiration dates, itemized services with quantities and unit prices, subtotal, applicable taxes or discounts, and a formal client approval signature section.'
       },
       {
         question: 'How long should a business price quote remain valid?',

@@ -8,7 +8,8 @@ import {
   Zap,
   CheckCircle2,
   Sparkles,
-  Compass
+  Compass,
+  BookOpen
 } from 'lucide-react';
 import { ToolSeoConfig } from '../data/seoData';
 import { updateMetaTags, getToolPageSchema } from '../utils/seo';
@@ -210,6 +211,32 @@ export const ToolPage: React.FC<ToolPageProps> = ({
                 </li>
               ))}
             </ol>
+          </section>
+        )}
+
+        {/* Educational Guide Section */}
+        {toolConfig.guideSection && (
+          <section
+            aria-labelledby="guide-heading"
+            className="mt-12 bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-xs"
+          >
+            <div className="flex items-center gap-2 mb-6">
+              <BookOpen className="w-5 h-5 text-teal-600" />
+              <h2
+                id="guide-heading"
+                className="text-xl font-bold text-slate-900 tracking-tight"
+              >
+                {toolConfig.guideSection.title}
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {toolConfig.guideSection.items.map((item, idx) => (
+                <div key={idx} className="p-5 rounded-xl bg-slate-50 border border-slate-200/70">
+                  <h3 className="text-sm font-bold text-slate-900 mb-2">{item.heading}</h3>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{item.description}</p>
+                </div>
+              ))}
+            </div>
           </section>
         )}
 
