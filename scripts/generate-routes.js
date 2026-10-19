@@ -307,33 +307,77 @@ const TOOL_ROUTES = [
   {
     route: '/tools/proposal-generator',
     name: 'Proposal Generator',
-    title: 'Free Proposal Generator — Win Client Project Contracts | BizPilot',
-    description: 'Build comprehensive client project proposals with executive summaries, scope of work, deliverables, investment pricing, and signing lines.',
-    h1: 'Client Project Proposal Generator',
+    title: 'Free Project Proposal Generator — Proposal Template | BizPilot',
+    description: 'Free project proposal generator for freelancers and contractors. Create business proposals with scope of work, milestones, timeline, and instant PDF download.',
+    h1: 'Free Project Proposal Generator',
     category: 'Business',
-    introduction: 'Draft structured, client-winning business proposals in minutes. Define executive summaries, problem statements, detailed deliverables, milestones, and formal agreement sign-off blocks formatted for print and PDF export.',
+    introduction: 'Create winning project proposals and professional business proposal templates in minutes. Define executive summaries, detailed scope of work, project milestones, payment schedules, and client sign-off blocks—all generated privately in your browser with instant PDF download.',
     howToUseSteps: [
-      'Enter your proposal title, client name, and company information.',
-      'Define project objectives, scope of work, and phased deliverables.',
-      'Outline milestone pricing, payment schedule, and terms.',
-      'Download a presentation-ready client proposal PDF.'
+      'Enter your business information, client details, proposal title, and issuance date.',
+      'Write a concise executive summary outlining the client\'s core problem and your proposed solution.',
+      'Define itemized scope of work, phased milestones, key deliverables, and expected project timeline.',
+      'Set your transparent investment pricing and structured payment terms (such as 40% deposit, 30% milestone, 30% delivery).',
+      'Click "Download Proposal (PDF)" to export an executive, multi-page client proposal featuring an acceptance signature block.'
     ],
-    faqs: [
-      {
-        question: 'Is this proposal legally binding?',
-        answer: 'When signed by both parties, project proposals that contain clear scopes, fees, and acceptance terms can serve as contracts or work orders.'
-      }
-    ],
+    guideSection: {
+      title: 'Guide: How to Create High-Converting Project Proposals',
+      items: [
+        {
+          heading: 'What Every Project Proposal Must Include',
+          description: 'A high-converting client proposal requires six core sections: an executive project summary, problem statement, itemized scope of work, tangible deliverables, a phased delivery timeline, transparent investment pricing with milestone payment terms, and a formal acceptance sign-off block for authorized client signatures.'
+        },
+        {
+          heading: 'Proposal vs. Quote vs. Invoice: Key Differences',
+          description: 'A Project Proposal is a comprehensive strategic document that sells your methodology, scope, and timeline before engagement. A Price Quote is a concise, fixed cost breakdown for straightforward services or predefined packages. An Invoice is an official payment demand issued after milestones or deliverables are completed.'
+        },
+        {
+          heading: 'Best Practices for Freelance Proposal Pricing',
+          description: 'Protect your cash flow by structuring payments around verifiable project milestones (e.g., 40% upfront deposit, 30% midway blueprint approval, 30% final deployment). Always include a 14 to 30 day expiration window and specify that scope additions require separate written change orders.'
+        }
+      ]
+    },
     relatedTools: [
       {
         name: 'Quote Generator',
         route: '/tools/quote-generator',
-        reason: 'Generate itemized cost schedules to include with your proposal.'
+        reason: 'Generate standalone price estimates and itemized cost sheets before formal proposal drafting.',
+        badge: 'Recommended'
       },
       {
         name: 'Invoice Generator',
         route: '/tools/invoice-generator',
-        reason: 'Bill agreed project deposit amounts upon proposal signing.'
+        reason: 'Bill initial deposit milestones or final payment requests upon proposal signing.',
+      },
+      {
+        name: 'Hourly Rate Calculator',
+        route: '/tools/hourly-rate-calculator',
+        reason: 'Calculate your target billable rate to ensure your milestone pricing guarantees healthy profit margins.',
+      }
+    ],
+    faqs: [
+      {
+        question: 'What essential sections should every client project proposal have?',
+        answer: 'A comprehensive client proposal should include: (1) business and client contact details; (2) an executive summary explaining the project goals; (3) a defined scope of work; (4) tangible, measurable deliverables; (5) a realistic project timeline or milestones; (6) clear investment pricing and phased payment terms; and (7) a formal acceptance signature section.'
+      },
+      {
+        question: 'What is the difference between a project proposal and a price quote?',
+        answer: 'A project proposal is an in-depth document explaining your strategic approach, deliverables, and timeline to win client buy-in for multi-phase or complex projects. A price quote is a simpler, itemized cost estimate sent when the project requirements are already understood and only exact rates and terms need agreement.'
+      },
+      {
+        question: 'How do I create and download a free proposal using this tool?',
+        answer: 'Enter your business information, client details, project description, scope of work, deliverables, timeline, and pricing into the clean form fields. The live preview updates in real time. When ready, click "Download Proposal (PDF)" to generate and download a professional multi-page PDF proposal instantly with zero watermark and no account required.'
+      },
+      {
+        question: 'How should freelancers structure proposal payment terms?',
+        answer: 'Freelancers typically structure payments into milestone installments rather than waiting until project completion. A standard schedule is 40% to 50% deposit upon contract signing, 25% to 30% upon delivery of a major milestone (such as design approval or staging build), and the remaining balance upon final delivery and training.'
+      },
+      {
+        question: 'Can I leave optional proposal sections empty?',
+        answer: 'Yes. Any optional section left blank (such as additional scope notes or specific deliverable bullets) is automatically omitted from the generated PDF without leaving awkward empty gaps or layout breaks.'
+      },
+      {
+        question: 'Are my project proposals, client data, and pricing kept confidential?',
+        answer: 'Completely. All data processing, form handling, and PDF rendering occur 100% locally in your web browser using client-side JavaScript. None of your confidential client names, project scopes, or pricing figures are transmitted to or stored on external servers.'
       }
     ]
   }

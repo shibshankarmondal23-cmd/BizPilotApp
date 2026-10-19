@@ -447,51 +447,81 @@ export const TOOL_SEO_PAGES: Record<string, ToolSeoConfig> = {
     route: '/tools/proposal-generator',
     toolKey: 'proposal-gen',
     name: 'Proposal Generator',
-    title: 'Free Proposal Generator — Create Client Project Proposals | BizPilot',
-    description: 'Generate comprehensive client project proposals with scope of work, deliverables, timeline, milestones, and investment pricing in downloadable PDF format.',
+    title: 'Free Project Proposal Generator — Proposal Template | BizPilot',
+    description: 'Free project proposal generator for freelancers and contractors. Create business proposals with scope of work, milestones, timeline, and instant PDF download.',
     h1: 'Free Project Proposal Generator',
-    introduction: 'Win high-value client contracts with structured, executive project proposals. Present project scope, milestones, deliverables, payment terms, and client sign-off in a beautifully styled multi-page PDF document created entirely in your browser.',
+    introduction: 'Create winning project proposals and professional business proposal templates in minutes. Define executive summaries, detailed scope of work, project milestones, payment schedules, and client sign-off blocks—all generated privately in your browser with instant PDF download.',
     category: 'Business',
     isPremium: false,
     howToUseSteps: [
-      'Enter your business name, lead contact, and client details.',
-      'Write your project description, scope of work, deliverables, and timeline milestones.',
-      'Specify the total investment amount and payment terms (such as 50% deposit / 50% completion).',
-      'Download a multi-page PDF proposal featuring an executive header, clean divider sections, and sign-off blocks.'
+      'Enter your business information, client details, proposal title, and issuance date.',
+      'Write a concise executive summary outlining the client\'s core problem and your proposed solution.',
+      'Define itemized scope of work, phased milestones, key deliverables, and expected project timeline.',
+      'Set your transparent investment pricing and structured payment terms (such as 40% deposit, 30% milestone, 30% delivery).',
+      'Click "Download Proposal (PDF)" to export an executive, multi-page client proposal featuring an acceptance signature block.'
     ],
+    guideSection: {
+      title: 'Guide: How to Create High-Converting Project Proposals',
+      items: [
+        {
+          heading: 'What Every Project Proposal Must Include',
+          description: 'A high-converting client proposal requires six core sections: an executive project summary, problem statement, itemized scope of work, tangible deliverables, a phased delivery timeline, transparent investment pricing with milestone payment terms, and a formal acceptance sign-off block for authorized client signatures.'
+        },
+        {
+          heading: 'Proposal vs. Quote vs. Invoice: Key Differences',
+          description: 'A Project Proposal is a comprehensive strategic document that sells your methodology, scope, and timeline before engagement. A Price Quote is a concise, fixed cost breakdown for straightforward services or predefined packages. An Invoice is an official payment demand issued after milestones or deliverables are completed.'
+        },
+        {
+          heading: 'Best Practices for Freelance Proposal Pricing',
+          description: 'Protect your cash flow by structuring payments around verifiable project milestones (e.g., 40% upfront deposit, 30% midway blueprint approval, 30% final deployment). Always include a 14 to 30 day expiration window and specify that scope additions require separate written change orders.'
+        }
+      ]
+    },
     relatedTools: [
       {
         id: 'quote-gen',
         name: 'Quote Generator',
         route: '/tools/quote-generator',
-        reason: 'Provide quick standalone pricing estimates for smaller quick-turnaround jobs.',
+        reason: 'Generate standalone price estimates and itemized cost sheets before formal proposal drafting.',
         badge: 'Recommended'
       },
       {
         id: 'invoice-gen',
         name: 'Invoice Generator',
         route: '/tools/invoice-generator',
-        reason: 'Bill your initial deposit or milestone payments once the proposal is signed.',
+        reason: 'Bill initial deposit milestones or final payment requests upon proposal signing.',
       },
       {
-        id: 'word-counter',
-        name: 'Word Counter',
-        route: '/tools/word-counter',
-        reason: 'Review your project description and scope text to ensure concise, professional phrasing.',
+        id: 'hourly-rate',
+        name: 'Hourly Rate Calculator',
+        route: '/tools/hourly-rate-calculator',
+        reason: 'Calculate your target billable rate to ensure your milestone pricing guarantees healthy profit margins.',
       }
     ],
     faqs: [
       {
         question: 'What essential sections should every client project proposal have?',
-        answer: 'A high-converting client proposal includes an executive project overview, defined scope of work, clear deliverables, expected timeline or milestones, transparent investment pricing, and formal payment terms with acceptance sign-off.'
+        answer: 'A comprehensive client proposal should include: (1) business and client contact details; (2) an executive summary explaining the project goals; (3) a defined scope of work; (4) tangible, measurable deliverables; (5) a realistic project timeline or milestones; (6) clear investment pricing and phased payment terms; and (7) a formal acceptance signature section.'
+      },
+      {
+        question: 'What is the difference between a project proposal and a price quote?',
+        answer: 'A project proposal is an in-depth document explaining your strategic approach, deliverables, and timeline to win client buy-in for multi-phase or complex projects. A price quote is a simpler, itemized cost estimate sent when the project requirements are already understood and only exact rates and terms need agreement.'
+      },
+      {
+        question: 'How do I create and download a free proposal using this tool?',
+        answer: 'Enter your business information, client details, project description, scope of work, deliverables, timeline, and pricing into the clean form fields. The live preview updates in real time. When ready, click "Download Proposal (PDF)" to generate and download a professional multi-page PDF proposal instantly with zero watermark and no account required.'
+      },
+      {
+        question: 'How should freelancers structure proposal payment terms?',
+        answer: 'Freelancers typically structure payments into milestone installments rather than waiting until project completion. A standard schedule is 40% to 50% deposit upon contract signing, 25% to 30% upon delivery of a major milestone (such as design approval or staging build), and the remaining balance upon final delivery and training.'
       },
       {
         question: 'Can I leave optional proposal sections empty?',
-        answer: 'Yes. Any section left empty (such as additional notes or deliverables) is cleanly omitted from the final PDF export without leaving blank white gaps.'
+        answer: 'Yes. Any optional section left blank (such as additional scope notes or specific deliverable bullets) is automatically omitted from the generated PDF without leaving awkward empty gaps or layout breaks.'
       },
       {
-        question: 'Are my proposals kept confidential?',
-        answer: 'Completely. Generation happens 100% on your device using client-side JavaScript. No client names, proprietary project scopes, or pricing details are sent to our servers.'
+        question: 'Are my project proposals, client data, and pricing kept confidential?',
+        answer: 'Completely. All data processing, form handling, and PDF rendering occur 100% locally in your web browser using client-side JavaScript. None of your confidential client names, project scopes, or pricing figures are transmitted to or stored on external servers.'
       }
     ]
   }
