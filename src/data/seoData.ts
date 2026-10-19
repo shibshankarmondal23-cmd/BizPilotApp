@@ -180,51 +180,81 @@ export const TOOL_SEO_PAGES: Record<string, ToolSeoConfig> = {
     route: '/tools/hourly-rate-calculator',
     toolKey: 'hourly-rate',
     name: 'Hourly Rate Calculator',
-    title: 'Freelance Hourly Rate Calculator — Calculate Billable Rate | BizPilot',
-    description: 'Determine what you need to charge per hour based on your target annual income, business overhead, billable efficiency, and vacation time.',
+    title: 'Freelance Hourly Rate Calculator — Calculate Hourly Rate | BizPilot',
+    description: 'Free freelance hourly rate calculator. Learn how to calculate hourly rate based on target income, billable hours, business expenses, taxes, and vacation time.',
     h1: 'Freelance Hourly Rate Calculator',
-    introduction: 'Discover what you truly need to charge per hour. Factor in your take-home income goal, annual business expenses, non-billable administrative hours, and planned vacation weeks to establish an unapologetic, sustainable freelance rate.',
+    introduction: 'Calculate your ideal freelance hourly rate based on target take-home income, business expenses, billable client hours, and planned vacation weeks. Learn how to calculate hourly rate accurately so non-billable administrative tasks and self-employment taxes do not reduce your business earnings.',
     category: 'Calculators',
     isPremium: false,
     howToUseSteps: [
-      'Set your target annual take-home income goal.',
-      'Enter your annual business operating expenses (software subscriptions, equipment, insurance).',
-      'Specify your weekly working hours, planned weeks off, and your realistic billable efficiency percentage (typically 60%–75%).',
-      'Receive your required hourly rate along with day rate, week rate, and billable hour breakdowns.'
+      'Enter your desired net annual take-home income goal.',
+      'Specify your realistic weekly billable client hours (typically 25–30 hours for most freelancers).',
+      'Set your planned working weeks per year to account for unpaid vacations, sick days, and holidays (typically 46–48 weeks).',
+      'Adjust your overhead and self-employment tax buffer slider (25% to 35% is standard for US freelancers).',
+      'Instantly review your recommended hourly rate, estimated day rate, and total gross revenue target.'
     ],
+    guideSection: {
+      title: 'Guide: How to Calculate a Profitable Freelance Hourly Rate',
+      items: [
+        {
+          heading: 'The Formula: How to Calculate Hourly Rate',
+          description: 'The formula to calculate your minimum billable hourly rate is: Hourly Rate = (Target Annual Take-Home + Business Expenses + Self-Employment Tax Buffer) ÷ (Billable Hours Per Week × Working Weeks Per Year). For example, if you desire $95,000 take-home, anticipate 25% ($23,750) in overhead and self-employment taxes, and plan 30 billable hours per week over 48 weeks (1,440 hours), your required rate is ($118,750 ÷ 1,440) ≈ $83/hour.'
+        },
+        {
+          heading: 'The Reality of Non-Billable Hours & Vacation Time',
+          description: 'Full-time employees typically work 2,080 hours annually, but freelancers spend 25% to 40% of their working time on unpaid administration (lead generation, proposals, invoicing, bookkeeping, and client communications). If you work 40 total hours per week, only 25 to 30 hours are realistically billable. Additionally, factoring in 3 to 5 weeks for vacations, sick leave, and federal holidays ensures you don\'t face income deficits during downtime.'
+        },
+        {
+          heading: 'Factoring in Taxes vs. Formal Tax Advice',
+          description: 'Freelancers and independent contractors in the US and abroad are responsible for self-employment taxes (covering Social Security and Medicare) plus income tax. Adding an overhead buffer of 25% to 35% ensures you set aside adequate funds for quarterly estimated tax payments. Please note: This calculator provides operational benchmarks and estimates, not formal tax or legal advice. Consult a licensed CPA or tax professional for your specific jurisdiction.'
+        }
+      ]
+    },
     relatedTools: [
-      {
-        id: 'invoice-gen',
-        name: 'Invoice Generator',
-        route: '/tools/invoice-generator',
-        reason: 'Bill clients directly at your calculated hourly rate with itemized PDF invoices.',
-        badge: 'Recommended'
-      },
       {
         id: 'profit-margin',
         name: 'Profit Margin Calculator',
         route: '/tools/profit-margin-calculator',
-        reason: 'Double-check your profit margins when quoting fixed-fee retainers or package deals.',
+        reason: 'Verify gross margins and markup multipliers before committing to fixed client pricing.',
+        badge: 'Recommended'
       },
       {
         id: 'quote-gen',
         name: 'Quote Generator',
         route: '/tools/quote-generator',
-        reason: 'Multiply estimated project hours by your hourly rate to produce formal client estimates.',
+        reason: 'Multiply estimated project hours by your hourly rate to generate formal PDF quotes.',
+      },
+      {
+        id: 'proposal-gen',
+        name: 'Proposal Generator',
+        route: '/tools/proposal-generator',
+        reason: 'Incorporate your target billable rates into comprehensive client proposals with milestones.',
       }
     ],
     faqs: [
       {
-        question: 'Why do freelancers need to account for non-billable hours?',
-        answer: 'Freelancers rarely spend 100% of their 40-hour week doing billable client work. Significant time goes to invoicing, client emails, marketing, accounting, and proposal drafting. A 60% to 75% billable ratio ensures your rates cover the full working week.'
+        question: 'How do I calculate my freelance hourly rate?',
+        answer: 'To calculate your hourly rate: (1) determine your annual net take-home income goal; (2) add annual business overhead and an estimated 25% to 35% tax buffer; (3) calculate your annual billable hours by multiplying weekly billable hours (typically 25–30 hrs) by active working weeks (46–48 weeks); and (4) divide total gross revenue needed by your annual billable hours.'
       },
       {
-        question: 'How should I factor in self-employment taxes?',
-        answer: 'In the US and many countries, self-employed individuals pay additional taxes (such as FICA/Self-Employment tax) usually ranging from 25% to 35% of net profit. Include this amount in your annual income goal or overhead expenses.'
+        question: 'Why shouldn\'t freelancers just divide desired salary by 2,080 hours?',
+        answer: 'Dividing by 2,080 assumes 40 hours per week of paid client work for 52 consecutive weeks. Freelancers spend 25% to 40% of their week on unbillable business operations (marketing, administrative tasks, invoicing) and must self-fund vacation, holidays, and healthcare. Dividing by 2,080 results in severely undercharging.'
       },
       {
-        question: 'Can I use this calculator if I charge per project instead of hourly?',
-        answer: 'Yes! Estimate how many billable hours a project will take, then multiply that by your target hourly rate to find your minimum project price floor.'
+        question: 'How do non-billable hours affect my hourly rate?',
+        answer: 'If you work 40 hours each week but only 25 hours are billable to clients, those 25 hours must generate 100% of your required income and operating expenses. Failing to account for administrative time forces freelancers to work 55–60 hours per week just to hit basic income targets.'
+      },
+      {
+        question: 'How should self-employment taxes and overhead be factored in?',
+        answer: 'Unlike W-2 employees where employers cover half of payroll taxes, self-employed individuals pay the full self-employment tax (15.3% in the US) plus federal and state income taxes, software licenses, equipment, and insurance. A 25% to 35% buffer added to your take-home goal is standard to prevent tax season deficits.'
+      },
+      {
+        question: 'Is the tax calculation in this tool formal tax advice?',
+        answer: 'No. The overhead and tax buffer sliders in this calculator provide general financial estimates and planning benchmarks. They do not constitute formal tax, legal, or accounting advice. Always consult a certified CPA or tax professional regarding your personal filing status and deductions.'
+      },
+      {
+        question: 'Can I use this calculated hourly rate to price project quotes and proposals?',
+        answer: 'Yes! Once you know your hourly rate, you can accurately estimate fixed-fee projects by multiplying estimated project labor hours by your rate, ensuring your fixed quotes and proposals remain profitable.'
       }
     ]
   },
