@@ -134,32 +134,76 @@ const TOOL_ROUTES = [
   {
     route: '/tools/profit-margin-calculator',
     name: 'Profit Margin Calculator',
-    title: 'Profit Margin Calculator — Markup & Gross Margin | BizPilot',
-    description: 'Calculate gross profit margin, markup percentage, and profit amounts for freelance projects, retail goods, and digital client services.',
+    title: 'Profit Margin Calculator — Gross Profit Margin Formula | BizPilot',
+    description: 'Free profit margin calculator to calculate gross profit margin, markup, and net profit. Use the standard profit margin formula to price services sustainably.',
     h1: 'Free Profit Margin & Markup Calculator',
     category: 'Calculators',
-    introduction: 'Calculate exact gross margins, net profit amounts, and markup multipliers for your client projects and business services. Enter your cost of goods or contractor expenses alongside your revenue to determine healthy profitability targets.',
+    introduction: 'Accurately compute gross profit margin, markup percentage, and net cash profit in real time. Use the standard profit margin formula to price freelance projects, consulting engagements, and business services sustainably.',
     howToUseSteps: [
-      'Enter your total cost (direct materials, contractor fees, software licenses).',
-      'Enter your selling price or client revenue figure.',
-      'Instantly review your gross profit in dollars, gross profit margin %, and markup multiplier.'
+      'Enter your total project cost or cost of goods sold (COGS), including direct labor, contractor fees, and materials.',
+      'Enter your total selling price or client revenue figure for the project or product.',
+      'Review your Gross Profit (revenue minus expenses), Gross Profit Margin percentage, and Markup percentage calculated in real time.',
+      'Click "Copy Summary" to copy the formatted profitability breakdown to your clipboard for proposals, invoices, or financial planning.'
     ],
-    faqs: [
-      {
-        question: 'What is the difference between profit margin and markup?',
-        answer: 'Profit margin is the percentage of total revenue that remains as profit ((Revenue - Cost) / Revenue × 100). Markup is the percentage added on top of your original cost to arrive at the selling price ((Revenue - Cost) / Cost × 100).'
-      }
-    ],
+    guideSection: {
+      title: 'Guide: Understanding Profit Margins & Pricing Formulas',
+      items: [
+        {
+          heading: 'The Profit Margin Formula Explained',
+          description: 'Gross profit margin measures how much out of every dollar earned is retained as profit after direct expenses. The mathematical formula is: Profit Margin (%) = [(Total Revenue - Total Cost) ÷ Total Revenue] × 100. For example, if you bill $5,000 for a website and incur $2,800 in contractor and software costs, your gross profit is $2,200 and your profit margin is ($2,200 ÷ $5,000) × 100 = 44.0%.'
+        },
+        {
+          heading: 'Profit Margin vs. Markup: The Crucial Difference',
+          description: 'While both metrics reflect profitability, they use different denominators. Profit Margin is profit divided by revenue (selling price), whereas Markup is profit divided by cost: Markup (%) = [(Total Revenue - Total Cost) ÷ Total Cost] × 100. In the same $5,000 project costing $2,800, your markup is ($2,200 ÷ $2,800) × 100 = 78.6%. Confusing markup with margin can cause businesses to underprice services and suffer unexpected cash deficits.'
+        },
+        {
+          heading: 'Target Margins for Freelancers & Service Agencies',
+          description: 'Service businesses, consultants, and freelancers should aim for a gross profit margin of 40% to 60%. Because gross margin does not deduct overhead costs like taxes, health insurance, marketing, and unbillable admin hours, a minimum 40% gross margin is required to sustain healthy net take-home pay.'
+        }
+      ]
+    },
     relatedTools: [
-      {
-        name: 'Invoice Generator',
-        route: '/tools/invoice-generator',
-        reason: 'Turn profitable service rates into structured client invoices.'
-      },
       {
         name: 'Hourly Rate Calculator',
         route: '/tools/hourly-rate-calculator',
-        reason: 'Compute your baseline labor costs before setting profit margins.'
+        reason: 'Translate your target profit margins into a sustainable freelance hourly rate.',
+        badge: 'Recommended'
+      },
+      {
+        name: 'Quote Generator',
+        route: '/tools/quote-generator',
+        reason: 'Create formal, itemized client quotes using your verified margin pricing.',
+      },
+      {
+        name: 'Invoice Generator',
+        route: '/tools/invoice-generator',
+        reason: 'Generate professional PDF invoices reflecting your profitable pricing structure.',
+      }
+    ],
+    faqs: [
+      {
+        question: 'What is the formula to calculate profit margin?',
+        answer: 'The gross profit margin formula is: Profit Margin (%) = [(Total Revenue - Total Cost) ÷ Total Revenue] × 100. First subtract your costs from revenue to calculate gross profit, then divide that profit by revenue and multiply by 100.'
+      },
+      {
+        question: 'What is the difference between profit margin and markup?',
+        answer: 'Profit margin expresses profit as a percentage of the selling price (revenue), while markup expresses profit as a percentage of the original cost. For example, if an item costs $50 and sells for $100, the profit is $50: the profit margin is 50% ($50 ÷ $100), but the markup is 100% ($50 ÷ $50).'
+      },
+      {
+        question: 'What is considered a healthy profit margin for service businesses and freelancers?',
+        answer: 'Service-based businesses and independent contractors typically target a gross profit margin between 40% and 60%. This cushion is necessary to cover taxes, administrative time, software subscriptions, insurance, and dry spells between contracts.'
+      },
+      {
+        question: 'What is the difference between gross profit margin and net profit margin?',
+        answer: 'Gross profit margin only deducts direct project costs (materials, subcontractors, direct project expenses) from revenue. Net profit margin deducts all business operating expenses, including overhead, rent, taxes, and loan interest, representing final bottom-line earnings.'
+      },
+      {
+        question: 'How can I use this calculator when preparing client quotes?',
+        answer: 'Before submitting a price quote, enter your estimated labor, subcontractor, and software expenses alongside your proposed quote amount. This ensures your quoted price meets your target margin before committing to a contract.'
+      },
+      {
+        question: 'Are my financial numbers or calculation figures stored on a server?',
+        answer: 'No. All calculations run 100% client-side in your web browser. No revenue numbers, cost data, or client details are ever sent to remote servers or saved in persistent database records.'
       }
     ]
   },
